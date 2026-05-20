@@ -17,5 +17,5 @@ export default {
 
   // === 网站信息 ===
   siteTitle: '我的主页',
-  siteUrl: 'https://LuoYue-cn.github.io/me',
+  siteUrl: 'https://me.h666h.com',
 }
