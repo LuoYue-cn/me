@@ -47,14 +47,6 @@ function close() {
         需要一个有 <code>repo</code> 权限的 GitHub Token 来管理内容。
       </p>
 
-      <div class="form-group">
-        <label class="form-label">GitHub Token</label>
-        <input v-model="token" type="password" class="form-input"
-          placeholder="ghp_xxxxxxxxxxxx" @keyup.enter="handleLogin" />
-      </div>
-
-      <div v-if="error" class="error-text">{{ error }}</div>
-
       <div class="form-actions" style="flex-direction:column;gap:8px">
         <a :href="oauthUrl" class="btn btn-primary" style="width:100%;justify-content:center;text-decoration:none">
           🔑 使用 GitHub 登录
