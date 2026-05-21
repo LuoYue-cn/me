@@ -14,14 +14,14 @@
   },
   "settings": {
     "bgType": "preset",
-    "bgPreset": "white",
+    "bgPreset": "sunset",
     "bgCustom": "",
     "bgCustomUrls": [],
     "bgCustomActive": 0,
-    "bgBlur": 31,
+    "bgBlur": 30,
     "cardOpacity": 0.61,
     "cardBlur": 26,
-    "theme": "terminal"
+    "theme": "retro"
   },
   "sections": [
     {
