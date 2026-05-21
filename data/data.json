@@ -91,6 +91,18 @@
       "url": "https://political-tendencies-test.h666h.com/",
       "description": "政治倾向测试项目上线",
       "icon": "https://pic.h666h.com/pic/political-tendencies-test_logo.png"
+    },
+    {
+      "id": "id-1779380362911-wvdk",
+      "type": "link",
+      "date": "2026-05-20T21:30",
+      "tags": [
+        "项目"
+      ],
+      "name": "恋爱测试（送表白卡）",
+      "url": "https://love-test-card.h666h.com/",
+      "description": "恋爱测试（送表白卡）项目上线",
+      "icon": "https://pic.h666h.com/pic/love-test-card.png"
     }
   ]
 }
