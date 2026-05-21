@@ -935,12 +935,12 @@ a:hover {
   flex-direction: column;
   gap: 8px;
   margin: 16px auto 0;
-  width: 280px;
+  width: fit-content;
 }
 .skill-bar-row {
   display: grid;
-  grid-template-columns: 70px 1fr 32px;
-  gap: 8px;
+  grid-template-columns: 70px 1fr 36px;
+  gap: 6px 10px;
   align-items: center;
 }
 .skill-bar-label {
