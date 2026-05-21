@@ -91,11 +91,12 @@ onMounted(async () => {
     document.documentElement.style.setProperty('--bg-blur', s.bgBlur + 'px')
     document.documentElement.style.setProperty('--card-blur', (s.cardBlur ?? 10) + 'px')
     document.documentElement.style.setProperty('--card-bg-alpha', s.cardOpacity)
-    if (s.siteIcon) {
+    const setFavicon = (url) => {
       let link = document.querySelector('link[rel="icon"]')
-      if (!link) { link = document.createElement('link'); link.rel = 'icon'; document.head.appendChild(link) }
-      link.href = s.siteIcon
+      if (!link) { link = document.createElement('link'); link.rel = 'icon'; link.type = 'image/svg+xml'; document.head.appendChild(link) }
+      link.href = url || '/favicon.svg'
     }
+    setFavicon(s.siteIcon)
     if (s.bgType === 'custom') {
       const urls = s.bgCustomUrls || []
       const activeUrl = urls[s.bgCustomActive] || s.bgCustom

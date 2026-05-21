@@ -98,11 +98,11 @@ function applySettings(f) {
   document.documentElement.style.setProperty('--card-bg-alpha', f.cardOpacity)
   document.documentElement.style.setProperty('--bg-blur', f.bgBlur + 'px')
   document.documentElement.style.setProperty('--card-blur', (f.cardBlur ?? 10) + 'px')
-  if (f.siteIcon) {
-    let link = document.querySelector('link[rel="icon"]')
-    if (!link) { link = document.createElement('link'); link.rel = 'icon'; document.head.appendChild(link) }
-    link.href = f.siteIcon
-  }
+  const link = document.querySelector('link[rel="icon"]') || (() => {
+    const l = document.createElement('link'); l.rel = 'icon'; l.type = 'image/svg+xml'
+    document.head.appendChild(l); return l
+  })()
+  link.href = f.siteIcon || '/favicon.svg'
 
   const bg = document.getElementById('app-bg')
   if (!bg) return
