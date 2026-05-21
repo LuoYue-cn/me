@@ -14,7 +14,7 @@
   },
   "settings": {
     "bgType": "preset",
-    "bgPreset": "sunset",
+    "bgPreset": "white",
     "bgCustom": "",
     "bgCustomUrls": [],
     "bgCustomActive": 0,
