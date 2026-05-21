@@ -12,6 +12,7 @@ const PRESETS = [
   { id: 'cherry',   name: '樱桃' },
   { id: 'aurora',   name: '极光' },
   { id: 'rose',     name: '玫瑰' },
+  { id: 'white',    name: '纯白' },
 ]
 
 const THEMES = [

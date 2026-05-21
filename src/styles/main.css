@@ -108,6 +108,7 @@
 [data-theme="terminal"] .btn { background: #1a1a1a; color: #33ff33; border: 1px solid #33ff33; }
 [data-theme="terminal"] .btn-primary { background: #33ff33; color: #0a0a0a; border: none; }
 [data-theme="terminal"] .btn-ghost { background: transparent; color: #33dd33; border: none; }
+[data-theme="terminal"] .tag-filter-item.active { background: #33ff33; color: #0a0a0a; }
 
 /* 极简 */
 [data-theme="minimal"] {
@@ -247,6 +248,7 @@ body {
 .bg-preset-cherry  { background: linear-gradient(135deg, #f12711, #f5af19); }
 .bg-preset-aurora  { background: linear-gradient(135deg, #00b4db, #0083b0); }
 .bg-preset-rose    { background: linear-gradient(135deg, #f093fb, #f5576c); }
+.bg-preset-white   { background: #f0f0f0; }
 
 
 
