@@ -935,7 +935,8 @@ a:hover {
   flex-direction: column;
   gap: 8px;
   margin: 16px auto 0;
-  width: fit-content;
+  max-width: 400px;
+  width: 100%;
 }
 .skill-bar-row {
   display: grid;
