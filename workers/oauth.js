@@ -56,30 +56,34 @@ export default {
 
     // === 写入 GitHub（代理保存） ===
     if (path === '/api/save' && method === 'POST') {
-      const body = await request.json()
-      const payload = await verifyToken(body.token, env.TOKEN_SECRET)
-      if (!payload) return json({ error: '登录已过期，请重新登录' }, 401)
-      // 用 Worker 自己的 GITHUB_TOKEN 写入 GitHub
-      const ghRes = await fetch(
-        `https://api.github.com/repos/LuoYue-cn/me/contents/data/data.json`,
-        {
-          method: 'PUT',
-          headers: {
-            Accept: 'application/vnd.github.v3+json',
-            Authorization: `Bearer ${env.GITHUB_TOKEN}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            message: '通过 Worker 保存',
-            content: body.content,
-            sha: body.sha || undefined,
-            branch: 'main',
-          }),
-        }
-      )
-      const ghData = await ghRes.json()
-      if (!ghRes.ok) return json({ error: ghData.message }, 500)
-      return json({ sha: ghData.content.sha })
+      try {
+        const body = await request.json()
+        const payload = await verifyToken(body.token, env.TOKEN_SECRET)
+        if (!payload) return json({ error: '登录已过期，请重新登录' }, 401)
+        if (!env.GITHUB_TOKEN) return json({ error: 'Worker 未配置 GITHUB_TOKEN' }, 500)
+        const ghRes = await fetch(
+          `https://api.github.com/repos/LuoYue-cn/me/contents/data/data.json`,
+          {
+            method: 'PUT',
+            headers: {
+              Accept: 'application/vnd.github.v3+json',
+              Authorization: `Bearer ${env.GITHUB_TOKEN}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              message: '通过 Worker 保存',
+              content: body.content,
+              sha: body.sha || undefined,
+              branch: 'main',
+            }),
+          }
+        )
+        const ghData = await ghRes.json()
+        if (!ghRes.ok) return json({ error: 'GitHub: ' + (ghData.message || ghRes.status) }, 500)
+        return json({ sha: ghData.content.sha })
+      } catch (e) {
+        return json({ error: 'Worker 内部错误: ' + e.message }, 500)
+      }
     }
 
     // === OAuth 回调（不变） ===
