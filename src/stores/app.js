@@ -229,23 +229,29 @@ export const useAppStore = defineStore('app', {
     async save() {
       this.saving = true
       try {
+        // 尝试从 localStorage 恢复上次成功的 SHA
+        if (!this.sha) this.sha = localStorage.getItem('last_sha') || null
+
         for (let attempt = 0; attempt < 3; attempt++) {
-          // 每次尝试前获取最新 SHA
+          // 每次尝试前获取最新 SHA（失败时保留旧的）
           try {
             const result = await fetchData()
             this.sha = result ? result.sha : null
-          } catch { this.sha = null }
+          } catch { /* 保持 this.sha 不变 */ }
 
           const json = JSON.stringify(this.data, null, 2)
           const content = encodeBase64(json)
 
           try {
+            let newSha
             if (this.workerToken) {
-              this.sha = await workerSave(content, this.sha, this.workerToken)
+              newSha = await workerSave(content, this.sha, this.workerToken)
             } else {
-              this.sha = await saveData(this.data, this.sha)
+              newSha = await saveData(this.data, this.sha)
             }
-            return // 成功则退出
+            this.sha = newSha
+            localStorage.setItem('last_sha', newSha)
+            return
           } catch (e) {
             // SHA 冲突则重试，其他错误直接抛出
             if (e.message && e.message.includes('does not match')) {
