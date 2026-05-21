@@ -686,6 +686,7 @@ a:hover {
   line-height: 1.8;
   color: var(--text);
   white-space: pre-wrap;
+  text-align: center;
 }
 .text-content:empty::before {
   content: '（点击编辑填写内容）';
@@ -934,7 +935,6 @@ a:hover {
   flex-direction: column;
   gap: 8px;
   margin-bottom: 16px;
-  text-align: left;
 }
 .skill-bar-row {
   display: flex;
@@ -946,7 +946,6 @@ a:hover {
   font-size: 13px;
   font-weight: 600;
   color: var(--text);
-  text-align: right;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
