@@ -26,17 +26,6 @@ const visibleSocials = computed(() =>
     <h1 class="profile-name">{{ store.profile.name }}</h1>
     <p class="profile-bio">{{ store.profile.bio }}</p>
 
-    <!-- 技能进度条 -->
-    <div v-if="store.profile.skills?.length" class="skill-bars">
-      <div v-for="(sk, i) in store.profile.skills" :key="i" class="skill-bar-row">
-        <span class="skill-bar-label">{{ sk.name }}</span>
-        <div class="skill-bar-track">
-          <div class="skill-bar-fill" :style="{ width: Math.min(sk.level, 100) + '%' }"></div>
-        </div>
-        <span class="skill-bar-pct">{{ sk.level }}%</span>
-      </div>
-    </div>
-
     <!-- 社交链接（只显示已开启的） -->
     <div v-if="visibleSocials.length" class="profile-social">
       <a
