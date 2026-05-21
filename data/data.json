@@ -4,19 +4,24 @@
     "bio": "个人简介 · 独立开发者",
     "avatar": "",
     "social": [
-      { "platform": "GitHub", "url": "https://github.com/LuoYue-cn", "icon": "github", "show": true }
+      {
+        "platform": "GitHub",
+        "url": "https://github.com/LuoYue-cn",
+        "icon": "github",
+        "show": true
+      }
     ]
   },
   "settings": {
     "bgType": "preset",
-    "bgPreset": "ocean",
+    "bgPreset": "midnight",
     "bgCustom": "",
     "bgCustomUrls": [],
     "bgCustomActive": 0,
     "bgBlur": 10,
-    "cardOpacity": 0.78,
+    "cardOpacity": 0.94,
     "cardBlur": 10,
-    "theme": "smooth"
+    "theme": "cyberpunk"
   },
   "sections": [
     {
@@ -42,7 +47,9 @@
       "description": "我的 GitHub 主页",
       "date": "2024-01-01",
       "icon": "https://github.githubassets.com/favicons/favicon.svg",
-      "tags": ["代码"]
+      "tags": [
+        "代码"
+      ]
     }
   ]
 }
