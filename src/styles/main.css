@@ -43,6 +43,8 @@
   border: 1px solid #00ffcc;
   box-shadow: 0 0 12px rgba(0,255,204,0.15), inset 0 0 12px rgba(0,255,204,0.03);
 }
+[data-theme="cyberpunk"] .btn { background: #0a0a1e; color: #00ffcc; border: 1px solid #00ffcc; }
+[data-theme="cyberpunk"] .btn-primary { background: #ff00aa; color: #fff; border: none; }
 
 /* Aero 玻璃 */
 [data-theme="aero"] {
@@ -103,6 +105,9 @@
   --font: 'Courier New', 'Consolas', monospace;
 }
 [data-theme="terminal"] body { font-family: 'Courier New', 'Consolas', monospace; }
+[data-theme="terminal"] .btn { background: #1a1a1a; color: #33ff33; border: 1px solid #33ff33; }
+[data-theme="terminal"] .btn-primary { background: #33ff33; color: #0a0a0a; border: none; }
+[data-theme="terminal"] .btn-ghost { background: transparent; color: #33dd33; border: none; }
 
 /* 极简 */
 [data-theme="minimal"] {
