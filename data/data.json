@@ -23,10 +23,15 @@
     ]
   },
   "settings": {
-    "bgType": "preset",
+    "bgType": "custom",
     "bgPreset": "ocean",
     "bgCustom": "",
-    "bgCustomUrls": [],
+    "bgCustomUrls": [
+      {
+        "url": "https://pic.h666h.com/pic/Mortis-back.jpeg",
+        "label": "pic.h666h.com/pic/Mortis-back."
+      }
+    ],
     "bgCustomActive": 0,
     "bgBlur": 37,
     "cardOpacity": 0.92,
