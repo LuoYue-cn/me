@@ -5,11 +5,28 @@
 //   GITHUB_CLIENT_ID / GITHUB_CLIENT_SECRET / REDIRECT_URI — OAuth 用
 //   SITE_URL        — https://me.h666h.com
 
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+}
+
 export default {
   async fetch(request, env) {
+    // 预检请求直接返回
+    if (request.method === 'OPTIONS') {
+      return new Response(null, { headers: CORS_HEADERS })
+    }
+
     const url = new URL(request.url)
     const path = url.pathname
     const method = request.method
+
+    function json(data, status = 200) {
+      return new Response(JSON.stringify(data), {
+        status, headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' },
+      })
+    }
 
     // 状态页面
     if (path === '/' || path === '') {
@@ -19,28 +36,16 @@ export default {
     // === 密码认证 ===
     if (path === '/api/auth' && method === 'POST') {
       const { password } = await request.json()
-      if (password !== env.ADMIN_PASSWORD) {
-        return new Response(JSON.stringify({ error: '密码错误' }), {
-          status: 401, headers: { 'Content-Type': 'application/json' },
-        })
-      }
-      // 用 Web Crypto 签发一个带过期时间的 token
+      if (password !== env.ADMIN_PASSWORD) return json({ error: '密码错误' }, 401)
       const token = await signToken('admin', env.TOKEN_SECRET)
-      return new Response(JSON.stringify({ token }), {
-        headers: { 'Content-Type': 'application/json' },
-      })
+      return json({ token })
     }
 
     // === 写入 GitHub（代理保存） ===
     if (path === '/api/save' && method === 'POST') {
       const body = await request.json()
-      // 校验 token
       const payload = await verifyToken(body.token, env.TOKEN_SECRET)
-      if (!payload) {
-        return new Response(JSON.stringify({ error: '登录已过期，请重新登录' }), {
-          status: 401, headers: { 'Content-Type': 'application/json' },
-        })
-      }
+      if (!payload) return json({ error: '登录已过期，请重新登录' }, 401)
       // 用 Worker 自己的 GITHUB_TOKEN 写入 GitHub
       const ghRes = await fetch(
         `https://api.github.com/repos/LuoYue-cn/me/contents/data/data.json`,
@@ -60,14 +65,8 @@ export default {
         }
       )
       const ghData = await ghRes.json()
-      if (!ghRes.ok) {
-        return new Response(JSON.stringify({ error: ghData.message }), {
-          status: 500, headers: { 'Content-Type': 'application/json' },
-        })
-      }
-      return new Response(JSON.stringify({ sha: ghData.content.sha }), {
-        headers: { 'Content-Type': 'application/json' },
-      })
+      if (!ghRes.ok) return json({ error: ghData.message }, 500)
+      return json({ sha: ghData.content.sha })
     }
 
     // === OAuth 回调（不变） ===
@@ -88,7 +87,7 @@ export default {
       return Response.redirect(`${env.SITE_URL || 'https://me.h666h.com'}#token=${data.access_token}`, 302)
     }
 
-    return new Response('Not Found', { status: 404 })
+    return json({ error: 'Not Found' }, 404)
   },
 }
 
