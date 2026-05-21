@@ -14,6 +14,19 @@ const PRESETS = [
   { id: 'rose',     name: '玫瑰' },
 ]
 
+const THEMES = [
+  { id: 'smooth',    name: '平滑' },
+  { id: 'cyberpunk', name: '赛博朋克' },
+  { id: 'aero',      name: 'Aero 玻璃' },
+  { id: 'lineart',   name: '纯线条' },
+  { id: 'terminal',  name: '终端' },
+  { id: 'minimal',   name: '极简' },
+  { id: 'retro',     name: '复古' },
+  { id: 'dark',      name: '暗夜' },
+  { id: 'neon',      name: '霓虹' },
+  { id: 'frost',     name: '毛玻璃' },
+]
+
 const s = store.data.settings || {}
 const form = reactive({
   bgType: s.bgType,
@@ -24,6 +37,7 @@ const form = reactive({
   bgBlur: s.bgBlur,
   cardBlur: s.cardBlur ?? 10,
   cardOpacity: s.cardOpacity,
+  theme: s.theme || 'smooth',
 })
 
 const newUrl = reactive({ value: '' })
@@ -60,6 +74,11 @@ const activeCustomUrl = () => {
   return form.bgCustomUrls[form.bgCustomActive]?.url || ''
 }
 
+function selectTheme(id) {
+  form.theme = id
+  document.documentElement.setAttribute('data-theme', id)
+}
+
 async function save() {
   store.updateSettings({ ...form, bgCustomUrls: form.bgCustomUrls.map(u => ({ ...u })) })
   applySettings(form)
@@ -72,6 +91,7 @@ async function save() {
 }
 
 function applySettings(f) {
+  document.documentElement.setAttribute('data-theme', f.theme || 'smooth')
   document.documentElement.style.setProperty('--card-blur', f.bgBlur + 'px')
   document.documentElement.style.setProperty('--card-bg', `rgba(255,255,255,${f.cardOpacity})`)
   document.documentElement.style.setProperty('--bg-blur', f.bgBlur + 'px')
@@ -173,7 +193,18 @@ function applySettings(f) {
         <input type="range" v-model.number="form.cardOpacity" min="0.3" max="1" step="0.01" class="form-range" />
       </div>
 
-
+      <!-- 主题选择 -->
+      <div class="form-group">
+        <label class="form-label">主题风格</label>
+        <div class="theme-grid">
+          <div v-for="t in THEMES" :key="t.id" class="theme-item"
+            :class="{ active: form.theme === t.id }"
+            @click="selectTheme(t.id)">
+            <div class="theme-swatch" :data-theme="t.id"></div>
+            <span class="theme-name">{{ t.name }}</span>
+          </div>
+        </div>
+      </div>
 
       <div class="form-actions">
         <button class="btn" @click="close">取消</button>

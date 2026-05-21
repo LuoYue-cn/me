@@ -87,6 +87,7 @@ onMounted(async () => {
   // 应用设置
   const s = store.data?.settings
   if (s) {
+    document.documentElement.setAttribute('data-theme', s.theme || 'smooth')
     document.documentElement.style.setProperty('--bg-blur', s.bgBlur + 'px')
     document.documentElement.style.setProperty('--card-blur', (s.cardBlur ?? 10) + 'px')
     document.documentElement.style.setProperty('--card-bg', `rgba(255,255,255,${s.cardOpacity})`)

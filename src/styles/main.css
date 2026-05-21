@@ -1,5 +1,6 @@
 /* ============ 全局重置 & 变量 ============ */
-:root {
+:root,
+[data-theme="smooth"] {
   --bg: rgba(255,255,255,0.5);
   --card-bg: rgba(255,255,255,0.78);
   --card-blur: 10px;
@@ -16,6 +17,172 @@
   --shadow: 0 8px 32px rgba(0,0,0,0.08);
   --shadow-lg: 0 16px 48px rgba(0,0,0,0.12);
   --max-width: 1040px;
+  --font: inherit;
+}
+
+/* 赛博朋克 */
+[data-theme="cyberpunk"] {
+  --bg: rgba(0,0,0,0.3);
+  --card-bg: rgba(10,10,30,0.85);
+  --card-blur: 4px;
+  --card-border: 1px solid #00ffcc;
+  --text: #00ffcc;
+  --text-secondary: #ff00aa;
+  --text-muted: #666;
+  --border: rgba(0,255,204,0.2);
+  --accent: #ff00aa;
+  --accent-hover: #ff44bb;
+  --radius: 2px;
+  --shadow: 0 0 20px rgba(0,255,204,0.15);
+  --shadow-lg: 0 0 40px rgba(0,255,204,0.1);
+  --font: inherit;
+}
+
+/* Aero 玻璃 */
+[data-theme="aero"] {
+  --bg: rgba(200,220,255,0.3);
+  --card-bg: rgba(255,255,255,0.35);
+  --card-blur: 20px;
+  --card-border: rgba(255,255,255,0.4);
+  --text: #1a2a4a;
+  --text-secondary: #4a6a8a;
+  --text-muted: #8a9aaa;
+  --border: rgba(100,150,200,0.15);
+  --accent: #4a8adf;
+  --accent-hover: #3a7acf;
+  --radius: 18px;
+  --shadow: 0 8px 40px rgba(50,100,150,0.12);
+  --shadow-lg: 0 16px 60px rgba(50,100,150,0.18);
+  --font: inherit;
+}
+
+/* 纯线条 */
+[data-theme="lineart"] {
+  --bg: transparent;
+  --card-bg: transparent;
+  --card-blur: 0px;
+  --card-border: #1a1a1a;
+  --text: #1a1a1a;
+  --text-secondary: #555;
+  --text-muted: #999;
+  --border: #ccc;
+  --accent: #1a1a1a;
+  --accent-hover: #555;
+  --radius: 0px;
+  --shadow: none;
+  --shadow-lg: none;
+  --font: inherit;
+}
+[data-theme="lineart"] .section-card { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; }
+
+/* 终端 */
+[data-theme="terminal"] {
+  --bg: #0a0a0a;
+  --card-bg: #0d0d0d;
+  --card-blur: 0px;
+  --card-border: #33ff33;
+  --text: #33ff33;
+  --text-secondary: #22cc22;
+  --text-muted: #115511;
+  --border: #33ff33;
+  --accent: #33ff33;
+  --accent-hover: #55ff55;
+  --radius: 0px;
+  --shadow: none;
+  --shadow-lg: none;
+  --font: 'Courier New', 'Consolas', monospace;
+}
+[data-theme="terminal"] body { font-family: 'Courier New', 'Consolas', monospace; }
+
+/* 极简 */
+[data-theme="minimal"] {
+  --bg: #fafafa;
+  --card-bg: #ffffff;
+  --card-blur: 0px;
+  --card-border: #e8e8e8;
+  --text: #222;
+  --text-secondary: #666;
+  --text-muted: #aaa;
+  --border: #ddd;
+  --accent: #333;
+  --accent-hover: #000;
+  --radius: 6px;
+  --shadow: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,0.06);
+  --font: inherit;
+}
+
+/* 复古 */
+[data-theme="retro"] {
+  --bg: #f5f0e8;
+  --card-bg: #faf6ee;
+  --card-blur: 0px;
+  --card-border: #d4c9b0;
+  --text: #3a3226;
+  --text-secondary: #7a6e5a;
+  --text-muted: #b0a48e;
+  --border: #d4c9b0;
+  --accent: #b8864a;
+  --accent-hover: #a0763a;
+  --radius: 4px;
+  --shadow: 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-lg: 0 6px 20px rgba(0,0,0,0.08);
+  --font: 'Georgia', 'Noto Serif SC', serif;
+}
+[data-theme="retro"] body { font-family: 'Georgia', 'Noto Serif SC', serif; }
+
+/* 暗夜 */
+[data-theme="dark"] {
+  --bg: #1a1a1a;
+  --card-bg: #2a2a2a;
+  --card-blur: 0px;
+  --card-border: #3a3a3a;
+  --text: #ccc;
+  --text-secondary: #999;
+  --text-muted: #666;
+  --border: #3a3a3a;
+  --accent: #888;
+  --accent-hover: #aaa;
+  --radius: 8px;
+  --shadow: 0 2px 8px rgba(0,0,0,0.2);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.3);
+  --font: inherit;
+}
+
+/* 霓虹 */
+[data-theme="neon"] {
+  --bg: #0a0a14;
+  --card-bg: rgba(10,10,30,0.7);
+  --card-blur: 6px;
+  --card-border: #ff00ff;
+  --text: #ffffff;
+  --text-secondary: #ff88ff;
+  --text-muted: #664466;
+  --border: rgba(255,0,255,0.15);
+  --accent: #00ffff;
+  --accent-hover: #44ffff;
+  --radius: 10px;
+  --shadow: 0 0 30px rgba(255,0,255,0.1);
+  --shadow-lg: 0 0 50px rgba(0,255,255,0.08);
+  --font: inherit;
+}
+
+/* 毛玻璃 (Frost) */
+[data-theme="frost"] {
+  --bg: rgba(255,255,255,0.08);
+  --card-bg: rgba(255,255,255,0.15);
+  --card-blur: 30px;
+  --card-border: rgba(255,255,255,0.25);
+  --text: #1a1a2a;
+  --text-secondary: #4a4a6a;
+  --text-muted: #8a8aaa;
+  --border: rgba(255,255,255,0.1);
+  --accent: #6a8aff;
+  --accent-hover: #5a7aef;
+  --radius: 20px;
+  --shadow: 0 8px 40px rgba(0,0,0,0.06);
+  --shadow-lg: 0 16px 60px rgba(0,0,0,0.1);
+  --font: inherit;
 }
 
 * {
@@ -519,6 +686,41 @@ a:hover {
   font-size: 18px;
   font-weight: 700;
   margin-bottom: 20px;
+}
+
+/* ============ 主题选择网格 ============ */
+.theme-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.theme-item {
+  flex: 0 1 calc(33.33% - 6px);
+  min-width: 0;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  padding: 6px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  text-align: center;
+  box-sizing: border-box;
+}
+.theme-item.active {
+  border-color: var(--accent);
+}
+.theme-swatch {
+  height: 48px;
+  border-radius: 8px;
+  margin-bottom: 4px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  backdrop-filter: blur(var(--card-blur, 10px));
+  -webkit-backdrop-filter: blur(var(--card-blur, 10px));
+}
+.theme-name {
+  font-size: 12px;
+  color: var(--text-secondary);
 }
 
 /* ============ 预设选择网格 ============ */

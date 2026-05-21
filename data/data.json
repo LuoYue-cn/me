@@ -15,7 +15,8 @@
     "bgCustomActive": 0,
     "bgBlur": 10,
     "cardOpacity": 0.78,
-    "cardBlur": 10
+    "cardBlur": 10,
+    "theme": "smooth"
   },
   "sections": [
     {
