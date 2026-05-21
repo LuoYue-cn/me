@@ -18,8 +18,8 @@
     "bgCustom": "",
     "bgCustomUrls": [],
     "bgCustomActive": 0,
-    "bgBlur": 10,
-    "cardOpacity": 0.94,
+    "bgBlur": 2,
+    "cardOpacity": 0.45,
     "cardBlur": 10,
     "theme": "cyberpunk"
   },
