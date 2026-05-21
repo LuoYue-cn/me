@@ -21,7 +21,7 @@
     "bgBlur": 31,
     "cardOpacity": 0.61,
     "cardBlur": 26,
-    "theme": "lineart"
+    "theme": "terminal"
   },
   "sections": [
     {
