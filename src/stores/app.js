@@ -227,25 +227,32 @@ export const useAppStore = defineStore('app', {
      * 保存数据到 GitHub
      */
     async save() {
-      if (!this.sha) {
-        try {
-          const result = await fetchData()
-          this.sha = result ? result.sha : null
-        } catch {
-          this.sha = null
-        }
-      }
       this.saving = true
       try {
-        const json = JSON.stringify(this.data, null, 2)
-        const content = encodeBase64(json)
-        // 优先走 Worker 代理（密码登录），否则直连 GitHub API
-        if (this.workerToken) {
-          const newSha = await workerSave(content, this.sha, this.workerToken)
-          this.sha = newSha
-        } else {
-          const newSha = await saveData(this.data, this.sha)
-          this.sha = newSha
+        for (let attempt = 0; attempt < 3; attempt++) {
+          // 每次尝试前获取最新 SHA
+          try {
+            const result = await fetchData()
+            this.sha = result ? result.sha : null
+          } catch { this.sha = null }
+
+          const json = JSON.stringify(this.data, null, 2)
+          const content = encodeBase64(json)
+
+          try {
+            if (this.workerToken) {
+              this.sha = await workerSave(content, this.sha, this.workerToken)
+            } else {
+              this.sha = await saveData(this.data, this.sha)
+            }
+            return // 成功则退出
+          } catch (e) {
+            // SHA 冲突则重试，其他错误直接抛出
+            if (e.message && e.message.includes('does not match')) {
+              if (attempt < 2) continue // 最多重试 2 次
+            }
+            throw e
+          }
         }
       } catch (e) {
         throw new Error('保存失败: ' + e.message)
