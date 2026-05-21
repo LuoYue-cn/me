@@ -125,7 +125,7 @@ function toast(msg) {
     <!-- 顶部栏（时钟 + 登录） -->
     <div class="topbar">
       <div class="topbar-clock">
-        <img v-if="store.data?.settings?.siteIcon" :src="store.data.settings.siteIcon" class="topbar-icon" alt="" />
+        <img v-if="store.data?.settings?.siteIcon" :src="store.data.settings.siteIcon" class="topbar-icon" alt="" loading="lazy" decoding="async" />
         {{ clockStr }}
       </div>
       <div class="topbar-right">

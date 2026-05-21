@@ -308,6 +308,8 @@ a:hover {
   padding: 20px;
   margin-bottom: 0;
   position: relative;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .section-title {
@@ -377,6 +379,8 @@ a:hover {
   box-shadow: var(--shadow);
   padding: 10px 16px;
   margin-bottom: 20px;
+  will-change: transform;
+  transform: translateZ(0);
 }
 .topbar-clock {
   display: flex;
@@ -765,6 +769,8 @@ a:hover {
   background: var(--card-bg);
   backdrop-filter: blur(var(--card-blur, 10px));
   -webkit-backdrop-filter: blur(var(--card-blur, 10px));
+  will-change: transform;
+  transform: translateZ(0);
 }
 .theme-name {
   font-size: 12px;
@@ -1012,24 +1018,6 @@ a:hover {
   gap: 12px;
 }
 
-/* ============ 社交链接编辑器 ============ */
-.social-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.social-row {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-.social-row input {
-  flex: 1;
-}
-.social-row .btn {
-  flex-shrink: 0;
-}
-
 /* ============ 加载状态 ============ */
 .loading {
   text-align: center;
@@ -1107,6 +1095,8 @@ a:hover {
   color: var(--text-secondary);
   font-size: 14px;
   margin-top: 20px;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 /* ============ Toast 提示 ============ */

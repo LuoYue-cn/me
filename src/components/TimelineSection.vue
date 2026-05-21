@@ -110,6 +110,7 @@ function confirmDelete(site) {
         <div
           v-for="site in group.sites"
           :key="site.id"
+          v-memo="[site.id, store.isLoggedIn]"
           class="timeline-item"
         >
           <div class="timeline-date">{{ site.date }}</div>
