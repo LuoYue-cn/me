@@ -229,37 +229,25 @@ export const useAppStore = defineStore('app', {
     async save() {
       this.saving = true
       try {
-        // 尝试从 localStorage 恢复上次成功的 SHA
-        if (!this.sha) this.sha = localStorage.getItem('last_sha') || null
-
-        for (let attempt = 0; attempt < 3; attempt++) {
-          // 每次尝试前获取最新 SHA（失败时保留旧的）
+        // SHA 为空时才请求（首次保存或从 localStorage 恢复）
+        if (!this.sha) {
           try {
             const result = await fetchData()
-            this.sha = result ? result.sha : null
-          } catch { /* 保持 this.sha 不变 */ }
-
-          const json = JSON.stringify(this.data, null, 2)
-          const content = encodeBase64(json)
-
-          try {
-            let newSha
-            if (this.workerToken) {
-              newSha = await workerSave(content, this.sha, this.workerToken)
-            } else {
-              newSha = await saveData(this.data, this.sha)
-            }
-            this.sha = newSha
-            localStorage.setItem('last_sha', newSha)
-            return
-          } catch (e) {
-            // SHA 冲突则重试，其他错误直接抛出
-            if (e.message && e.message.includes('does not match')) {
-              if (attempt < 2) continue // 最多重试 2 次
-            }
-            throw e
+            this.sha = result ? result.sha : localStorage.getItem('last_sha') || null
+          } catch {
+            this.sha = localStorage.getItem('last_sha') || null
           }
         }
+
+        const json = JSON.stringify(this.data, null, 2)
+        const content = encodeBase64(json)
+
+        if (this.workerToken) {
+          this.sha = await workerSave(content, this.sha, this.workerToken)
+        } else {
+          this.sha = await saveData(this.data, this.sha)
+        }
+        localStorage.setItem('last_sha', this.sha)
       } catch (e) {
         throw new Error('保存失败: ' + e.message)
       } finally {
