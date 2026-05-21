@@ -66,6 +66,7 @@ export default {
           {
             method: 'PUT',
             headers: {
+              'User-Agent': 'me.h666h.com-worker',
               Accept: 'application/vnd.github.v3+json',
               Authorization: `Bearer ${env.GITHUB_TOKEN}`,
               'Content-Type': 'application/json',
