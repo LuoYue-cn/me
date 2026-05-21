@@ -33,6 +33,19 @@ export default {
       return new Response('me.h666h.com Worker OK', { status: 200 })
     }
 
+    // 诊断：测试 token 是否有效（GET）
+    if (path === '/api/check-token') {
+      const testPayload = await signToken('test', env.TOKEN_SECRET)
+      const testVerify = await verifyToken(testPayload, env.TOKEN_SECRET)
+      return json({
+        hasTokenSecret: !!env.TOKEN_SECRET,
+        hasGitHubToken: !!env.GITHUB_TOKEN,
+        hasPassword: !!env.ADMIN_PASSWORD,
+        signVerifyWorks: !!testVerify,
+        testPayload,
+      })
+    }
+
     // === 密码认证 ===
     if (path === '/api/auth' && method === 'POST') {
       const { password } = await request.json()
