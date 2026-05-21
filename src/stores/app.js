@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
-import { fetchData, saveData, verifyToken, saveToken, clearToken, hasToken } from '../api/github.js'
+import { fetchData, saveData, verifyToken, saveToken, clearToken, hasToken, workerAuth, workerSave } from '../api/github.js'
+import { encodeBase64 } from '../api/github.js'
 
 /**
  * 默认数据模板
@@ -61,12 +62,15 @@ export const useAppStore = defineStore('app', {
     user: null,            // GitHub 用户名（登录后）
     loggingIn: false,      // 正在验证 token
 
+    // Worker 密码登录
+    workerToken: localStorage.getItem('worker_token') || null,
+
     // 数据
-    data: null,            // 完整数据对象
-    sha: null,             // 当前文件 SHA
-    loading: false,        // 正在加载数据
-    saving: false,         // 正在保存
-    error: null,           // 错误消息
+    data: null,
+    sha: null,
+    loading: false,
+    saving: false,
+    error: null,
 
     // 筛选
     selectedTag: '',
@@ -84,7 +88,7 @@ export const useAppStore = defineStore('app', {
   }),
 
   getters: {
-    isLoggedIn: (state) => !!state.user,
+    isLoggedIn: (state) => !!state.user || !!state.workerToken,
     websites: (state) => state.data?.websites || [],
     profile: (state) => state.data?.profile || { name: '', bio: '', avatar: '', social: [] },
     sections: (state) => state.data?.sections || [],
@@ -176,8 +180,17 @@ export const useAppStore = defineStore('app', {
       }
     },
 
+    async loginWithPassword(password) {
+      const token = await workerAuth(password)
+      localStorage.setItem('worker_token', token)
+      this.workerToken = token
+      this.user = 'admin'
+    },
+
     logout() {
       clearToken()
+      localStorage.removeItem('worker_token')
+      this.workerToken = null
       this.user = null
     },
 
@@ -213,7 +226,6 @@ export const useAppStore = defineStore('app', {
      */
     async save() {
       if (!this.sha) {
-        // 首次保存，先读取一次获取 SHA（或者没有文件时用 null）
         try {
           const result = await fetchData()
           this.sha = result ? result.sha : null
@@ -223,8 +235,16 @@ export const useAppStore = defineStore('app', {
       }
       this.saving = true
       try {
-        const newSha = await saveData(this.data, this.sha)
-        this.sha = newSha
+        const json = JSON.stringify(this.data, null, 2)
+        const content = encodeBase64(json)
+        // 优先走 Worker 代理（密码登录），否则直连 GitHub API
+        if (this.workerToken) {
+          const newSha = await workerSave(content, this.sha, this.workerToken)
+          this.sha = newSha
+        } else {
+          const newSha = await saveData(this.data, this.sha)
+          this.sha = newSha
+        }
       } catch (e) {
         throw new Error('保存失败: ' + e.message)
       } finally {

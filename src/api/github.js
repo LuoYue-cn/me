@@ -84,7 +84,7 @@ function decodeBase64(str) {
   return decodeURIComponent(escape(atob(str)))
 }
 
-function encodeBase64(str) {
+export function encodeBase64(str) {
   // UTF-8 → base64 编码
   return btoa(unescape(encodeURIComponent(str)))
 }
@@ -102,6 +102,40 @@ export async function verifyToken(token) {
   if (!res.ok) return null
   const user = await res.json()
   return user.login
+}
+
+// ==========================================
+// Worker 密码认证 + 代理保存
+// ==========================================
+
+const WORKER = config.oauthWorkerUrl
+
+/**
+ * 用密码登录，获取 session token
+ */
+export async function workerAuth(password) {
+  const res = await fetch(WORKER + '/api/auth', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password }),
+  })
+  const data = await res.json()
+  if (!res.ok) throw new Error(data.error || '认证失败')
+  return data.token
+}
+
+/**
+ * 通过 Worker 保存数据（无需自己的 GitHub Token）
+ */
+export async function workerSave(content, sha, token) {
+  const res = await fetch(WORKER + '/api/save', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token, content, sha }),
+  })
+  const data = await res.json()
+  if (!res.ok) throw new Error(data.error || '保存失败')
+  return data.sha
 }
 
 /**
