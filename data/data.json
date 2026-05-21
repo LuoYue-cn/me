@@ -18,10 +18,10 @@
     "bgCustom": "",
     "bgCustomUrls": [],
     "bgCustomActive": 0,
-    "bgBlur": 2,
-    "cardOpacity": 0.3,
+    "bgBlur": 11,
+    "cardOpacity": 0.61,
     "cardBlur": 10,
-    "theme": "cyberpunk"
+    "theme": "smooth"
   },
   "sections": [
     {
