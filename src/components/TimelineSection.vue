@@ -55,9 +55,10 @@ function cleanUrl(url) {
 }
 
 function confirmDelete(site) {
+  const label = site.type === 'post' ? (site.content?.slice(0, 20) || '这条说说') : site.name
   store.showConfirm = {
-    title: '删除网站',
-    message: `确定要删除「${site.name}」吗？`,
+    title: '删除',
+    message: `确定要删除「${label}」吗？`,
     onConfirm: () => {
       store.removeWebsite(site.id)
       store.save().catch(e => console.error(e))
