@@ -34,7 +34,7 @@
     "theme": "aero",
     "pagination": {
       "enabled": true,
-      "perPage": 10
+      "perPage": 3
     },
     "siteIcon": "https://pic.h666h.com/pic/Mortis.jpg"
   },
