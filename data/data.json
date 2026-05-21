@@ -34,7 +34,7 @@
     ],
     "bgCustomActive": 0,
     "bgBlur": 30,
-    "cardOpacity": 0.7,
+    "cardOpacity": 0.75,
     "cardBlur": 30,
     "theme": "aero",
     "pagination": {
