@@ -58,6 +58,8 @@ function genId() {
   return 'id-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6)
 }
 
+let saveQueue = Promise.resolve()
+
 export const useAppStore = defineStore('app', {
   state: () => ({
     // 登录状态
@@ -227,32 +229,36 @@ export const useAppStore = defineStore('app', {
      * 保存数据到 GitHub
      */
     async save() {
-      this.saving = true
-      try {
-        // SHA 为空时才请求（首次保存或从 localStorage 恢复）
-        if (!this.sha) {
-          try {
-            const result = await fetchData()
-            this.sha = result ? result.sha : localStorage.getItem('last_sha') || null
-          } catch {
-            this.sha = localStorage.getItem('last_sha') || null
+      // 排队：保证同一时间只有一个保存操作
+      const task = async () => {
+        this.saving = true
+        try {
+          if (!this.sha) {
+            try {
+              const result = await fetchData()
+              this.sha = result ? result.sha : localStorage.getItem('last_sha') || null
+            } catch {
+              this.sha = localStorage.getItem('last_sha') || null
+            }
           }
-        }
 
-        const json = JSON.stringify(this.data, null, 2)
-        const content = encodeBase64(json)
+          const json = JSON.stringify(this.data, null, 2)
+          const content = encodeBase64(json)
 
-        if (this.workerToken) {
-          this.sha = await workerSave(content, this.sha, this.workerToken)
-        } else {
-          this.sha = await saveData(this.data, this.sha)
+          if (this.workerToken) {
+            this.sha = await workerSave(content, this.sha, this.workerToken)
+          } else {
+            this.sha = await saveData(this.data, this.sha)
+          }
+          localStorage.setItem('last_sha', this.sha)
+        } catch (e) {
+          throw new Error('保存失败: ' + e.message)
+        } finally {
+          this.saving = false
         }
-        localStorage.setItem('last_sha', this.sha)
-      } catch (e) {
-        throw new Error('保存失败: ' + e.message)
-      } finally {
-        this.saving = false
       }
+      saveQueue = saveQueue.then(task, task)
+      return saveQueue
     },
 
     // ============ 网站操作 ============
