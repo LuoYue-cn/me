@@ -12,7 +12,7 @@ export default {
 
 
   // === OAuth 设置（可选，部署 Worker 后填）===
-  oauthWorkerUrl: 'https://你的worker名.workers.dev',
+  oauthWorkerUrl: 'https://me-oauth.fxr20110402.workers.dev',
 
   // === 网站信息 ===
   siteTitle: '我的主页',
