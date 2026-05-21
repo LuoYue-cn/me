@@ -379,10 +379,19 @@ a:hover {
   margin-bottom: 20px;
 }
 .topbar-clock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 15px;
   font-weight: 600;
   color: var(--text);
   font-variant-numeric: tabular-nums;
+}
+.topbar-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  object-fit: contain;
 }
 .topbar-right {
   display: flex;

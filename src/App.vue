@@ -91,6 +91,11 @@ onMounted(async () => {
     document.documentElement.style.setProperty('--bg-blur', s.bgBlur + 'px')
     document.documentElement.style.setProperty('--card-blur', (s.cardBlur ?? 10) + 'px')
     document.documentElement.style.setProperty('--card-bg-alpha', s.cardOpacity)
+    if (s.siteIcon) {
+      let link = document.querySelector('link[rel="icon"]')
+      if (!link) { link = document.createElement('link'); link.rel = 'icon'; document.head.appendChild(link) }
+      link.href = s.siteIcon
+    }
     if (s.bgType === 'custom') {
       const urls = s.bgCustomUrls || []
       const activeUrl = urls[s.bgCustomActive] || s.bgCustom
@@ -118,7 +123,10 @@ function toast(msg) {
   <div class="container" style="position:relative;z-index:1">
     <!-- 顶部栏（时钟 + 登录） -->
     <div class="topbar">
-      <div class="topbar-clock">{{ clockStr }}</div>
+      <div class="topbar-clock">
+        <img v-if="store.data?.settings?.siteIcon" :src="store.data.settings.siteIcon" class="topbar-icon" alt="" />
+        {{ clockStr }}
+      </div>
       <div class="topbar-right">
         <template v-if="store.loggingIn">
           <span class="user-badge">验证中...</span>

@@ -25,7 +25,8 @@
     "pagination": {
       "enabled": true,
       "perPage": 26
-    }
+    },
+    "siteIcon": ""
   },
   "sections": [
     {

@@ -40,6 +40,7 @@ const form = reactive({
   cardOpacity: s.cardOpacity,
   theme: s.theme || 'smooth',
   pagination: { ...(s.pagination || { enabled: false, perPage: 10 }) },
+  siteIcon: s.siteIcon || '',
 })
 
 const newUrl = reactive({ value: '' })
@@ -97,6 +98,11 @@ function applySettings(f) {
   document.documentElement.style.setProperty('--card-bg-alpha', f.cardOpacity)
   document.documentElement.style.setProperty('--bg-blur', f.bgBlur + 'px')
   document.documentElement.style.setProperty('--card-blur', (f.cardBlur ?? 10) + 'px')
+  if (f.siteIcon) {
+    let link = document.querySelector('link[rel="icon"]')
+    if (!link) { link = document.createElement('link'); link.rel = 'icon'; document.head.appendChild(link) }
+    link.href = f.siteIcon
+  }
 
   const bg = document.getElementById('app-bg')
   if (!bg) return
@@ -209,6 +215,13 @@ function applySettings(f) {
           <label class="form-label">每页条数：{{ form.pagination.perPage }}</label>
           <input type="range" v-model.number="form.pagination.perPage" min="3" max="30" class="form-range" />
         </div>
+      </div>
+
+      <!-- 网站图标 -->
+      <div class="form-group">
+        <label class="form-label">网站图标 URL</label>
+        <input v-model="form.siteIcon" class="form-input" placeholder="https://example.com/favicon.ico" />
+        <div style="font-size:12px;color:var(--text-muted);margin-top:2px">显示在浏览器标签栏和顶栏时钟左侧</div>
       </div>
 
       <!-- 主题选择 -->
