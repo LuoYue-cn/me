@@ -57,6 +57,7 @@ async function save() {
   }
   if (form.type === 'post') {
     updates.content = form.content
+    updates.icon = form.icon
   } else {
     updates.name = form.name
     updates.url = form.url.startsWith('http') ? form.url : 'https://' + form.url
@@ -109,6 +110,10 @@ async function save() {
         <div class="form-group">
           <label class="form-label">内容</label>
           <textarea v-model="form.content" class="form-textarea" rows="4"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">图标 URL</label>
+          <input v-model="form.icon" class="form-input" placeholder="可选" />
         </div>
       </template>
 

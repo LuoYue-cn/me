@@ -275,6 +275,7 @@ export const useAppStore = defineStore('app', {
       }
       if (entry.type === 'post') {
         entry.content = site.content || ''
+        entry.icon = site.icon || ''
       } else {
         entry.name = site.name || ''
         entry.url = site.url || ''

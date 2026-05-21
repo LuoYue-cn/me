@@ -41,7 +41,7 @@ async function save() {
     tags: form.tags.split(/[,，、\s]+/).filter(Boolean).slice(0, 5),
   }
   if (entryType.value === 'post') {
-    store.addWebsite({ ...base, content: form.content })
+    store.addWebsite({ ...base, content: form.content, icon: form.icon })
   } else {
     store.addWebsite({
       ...base, name: form.name,
@@ -96,6 +96,10 @@ async function save() {
         <div class="form-group">
           <label class="form-label">内容</label>
           <textarea v-model="form.content" class="form-textarea" rows="4" placeholder="写点什么…"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">图标 URL</label>
+          <input v-model="form.icon" class="form-input" placeholder="可选，如 📷 或图片链接" />
         </div>
       </template>
 

@@ -118,7 +118,11 @@ function confirmDelete(site) {
           <div class="timeline-item-body">
             <!-- 说说：纯文本 -->
             <template v-if="site.type === 'post'">
-              <div class="timeline-icon-placeholder"></div>
+              <div v-if="site.icon" class="timeline-icon">
+                <img :src="site.icon" alt="图标" loading="lazy"
+                  @error="$event.target.closest('.timeline-icon').classList.add('hidden')" />
+              </div>
+              <div v-else class="timeline-icon-placeholder"></div>
               <div class="timeline-info">
                 <div class="timeline-post">{{ site.content }}</div>
                 <div v-if="site.tags && site.tags.length" class="timeline-tags">
