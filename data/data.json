@@ -20,8 +20,8 @@
     "bgCustomActive": 0,
     "bgBlur": 11,
     "cardOpacity": 0.61,
-    "cardBlur": 10,
-    "theme": "terminal"
+    "cardBlur": 26,
+    "theme": "smooth"
   },
   "sections": [
     {
