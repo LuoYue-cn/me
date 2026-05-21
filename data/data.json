@@ -24,7 +24,7 @@
     "theme": "aero",
     "pagination": {
       "enabled": true,
-      "perPage": 26
+      "perPage": 10
     },
     "siteIcon": ""
   },
