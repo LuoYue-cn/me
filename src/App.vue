@@ -102,7 +102,8 @@ onMounted(async () => {
     setFavicon(s.siteIcon)
     if (s.bgType === 'custom') {
       const urls = s.bgCustomUrls || []
-      const activeUrl = urls[s.bgCustomActive] || s.bgCustom
+      const active = urls[s.bgCustomActive]
+      const activeUrl = active ? (active.url || active) : s.bgCustom
       if (activeUrl) {
         const bg = document.getElementById('app-bg')
         if (bg) bg.style.backgroundImage = `url(${activeUrl})`

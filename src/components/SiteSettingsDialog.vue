@@ -72,11 +72,6 @@ function selectUrl(index) {
   form.bgCustomActive = index
 }
 
-const activeCustomUrl = () => {
-  if (!form.bgCustomUrls.length) return form.bgCustom || ''
-  return form.bgCustomUrls[form.bgCustomActive]?.url || ''
-}
-
 function selectTheme(id) {
   form.theme = id
   document.documentElement.setAttribute('data-theme', id)
@@ -107,7 +102,8 @@ function applySettings(f) {
   const bg = document.getElementById('app-bg')
   if (!bg) return
   if (f.bgType === 'custom') {
-    const url = activeCustomUrl()
+    const active = f.bgCustomUrls[f.bgCustomActive]
+    const url = active ? (active.url || active) : f.bgCustom
     if (url) {
       bg.style.backgroundImage = `url(${url})`
       bg.className = 'app-bg'
