@@ -24,6 +24,7 @@ function defaultData() {
       cardOpacity: 0.78,
       cardBlur: 10,
       theme: 'smooth',
+      pagination: { enabled: false, perPage: 10 },
     },
     sections: [
       { id: 'about', type: 'text', title: '关于我', content: '写点什么介绍一下自己吧。', order: 0 },

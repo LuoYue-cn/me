@@ -1037,6 +1037,20 @@ a:hover {
   justify-content: space-between;
 }
 
+/* ============ 翻页 ============ */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 0 4px;
+}
+.pagination-info {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
 /* ============ 空状态 ============ */
 .empty-state {
   text-align: center;

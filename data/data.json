@@ -21,7 +21,11 @@
     "bgBlur": 0,
     "cardOpacity": 0.71,
     "cardBlur": 30,
-    "theme": "retro"
+    "theme": "retro",
+    "pagination": {
+      "enabled": false,
+      "perPage": 10
+    }
   },
   "sections": [
     {

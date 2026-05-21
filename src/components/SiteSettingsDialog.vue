@@ -39,6 +39,7 @@ const form = reactive({
   cardBlur: s.cardBlur ?? 10,
   cardOpacity: s.cardOpacity,
   theme: s.theme || 'smooth',
+  pagination: { ...(s.pagination || { enabled: false, perPage: 10 }) },
 })
 
 const newUrl = reactive({ value: '' })
@@ -191,6 +192,23 @@ function applySettings(f) {
       <div class="form-group">
         <label class="form-label">卡片透明度：{{ Math.round(form.cardOpacity * 100) }}%</label>
         <input type="range" v-model.number="form.cardOpacity" min="0.3" max="1" step="0.01" class="form-range" />
+      </div>
+
+      <!-- 翻页设置 -->
+      <div class="form-group">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <label class="form-label" style="margin:0">翻页（网站列表）</label>
+          <label class="toggle-wrap">
+            <label class="toggle-switch">
+              <input type="checkbox" v-model="form.pagination.enabled" />
+              <span class="toggle-slider"></span>
+            </label>
+          </label>
+        </div>
+        <div v-if="form.pagination.enabled" style="margin-top:8px">
+          <label class="form-label">每页条数：{{ form.pagination.perPage }}</label>
+          <input type="range" v-model.number="form.pagination.perPage" min="3" max="30" class="form-range" />
+        </div>
       </div>
 
       <!-- 主题选择 -->

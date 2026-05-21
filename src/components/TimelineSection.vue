@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useAppStore } from '../stores/app.js'
 
 defineProps({
@@ -7,20 +7,44 @@ defineProps({
 })
 
 const store = useAppStore()
+const page = ref(1)
 
-// 按年份分组并按日期排序（使用过滤后的网站）
+const pag = computed(() => store.data?.settings?.pagination || { enabled: false, perPage: 10 })
+
+// 过滤后的网站，按日期降序平铺
+const flatSorted = computed(() => {
+  return [...store.filteredWebsites].sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+})
+
+const totalPages = computed(() => {
+  if (!pag.value.enabled) return 1
+  return Math.max(1, Math.ceil(flatSorted.value.length / pag.value.perPage))
+})
+
+// 当前页的网站（翻页模式）或全部（非翻页模式）
+const pageSites = computed(() => {
+  if (!pag.value.enabled) return flatSorted.value
+  const start = (page.value - 1) * pag.value.perPage
+  return flatSorted.value.slice(start, start + pag.value.perPage)
+})
+
+// 翻页开关或每页条数变化时重置到第一页
+watch(() => [pag.value.enabled, pag.value.perPage], () => { page.value = 1 })
+
+// 标签筛选变化时重置到第一页
+watch(() => store.selectedTag, () => { page.value = 1 })
+
+// 按年份分组
 const grouped = computed(() => {
   const map = {}
-  for (const site of store.filteredWebsites) {
+  for (const site of pageSites.value) {
     const year = site.date ? site.date.slice(0, 4) : '未知'
     if (!map[year]) map[year] = []
     map[year].push(site)
   }
-  // 每年内部按日期降序
   for (const year of Object.keys(map)) {
     map[year].sort((a, b) => (b.date || '').localeCompare(a.date || ''))
   }
-  // 年份降序排列
   const years = Object.keys(map).sort((a, b) => b.localeCompare(a))
   return years.map(y => ({ year: y, sites: map[y] }))
 })
@@ -141,6 +165,13 @@ function confirmDelete(site) {
           </div>
         </div>
       </template>
+    </div>
+
+    <!-- 翻页 -->
+    <div class="pagination" v-if="pag.enabled && totalPages > 1">
+      <button class="btn btn-sm" :disabled="page <= 1" @click="page--">‹</button>
+      <span class="pagination-info">{{ page }} / {{ totalPages }}</span>
+      <button class="btn btn-sm" :disabled="page >= totalPages" @click="page++">›</button>
     </div>
 
     <!-- 保存/编辑提示（管理员时显示） -->
