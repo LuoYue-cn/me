@@ -80,10 +80,7 @@ function confirmDelete(site) {
       </button>
     </div>
 
-    <!-- 区块描述 -->
-    <p v-if="section.content" class="timeline-desc" style="margin-bottom:16px">
-      {{ section.content }}
-    </p>
+
 
     <!-- 空状态：没有任何网站 -->
     <div v-if="!store.websites.length" class="empty-state">
