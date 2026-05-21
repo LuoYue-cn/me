@@ -69,6 +69,13 @@ const bgClass = computed(() => {
 
 // 自动登录 & 加载数据
 onMounted(async () => {
+  // 检查 URL hash 中是否有 OAuth token
+  if (location.hash.startsWith('#token=')) {
+    const token = location.hash.slice(7)
+    location.hash = ''
+    try { await store.login(token) } catch {}
+  }
+
   await store.checkLogin()
   await store.loadData()
 
