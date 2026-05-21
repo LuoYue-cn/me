@@ -671,6 +671,15 @@ a:hover {
   font-style: italic;
 }
 
+.btn-github {
+  background: #24292e !important;
+  color: #fff !important;
+  border: none !important;
+}
+.btn-github:hover {
+  background: #1b1f23 !important;
+}
+
 /* ============ 对话框遮罩 ============ */
 .overlay {
   position: fixed;

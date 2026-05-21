@@ -77,8 +77,8 @@ function close() {
       </div>
 
       <!-- GitHub OAuth -->
-      <a :href="oauthUrl" class="btn" style="width:100%;justify-content:center;text-decoration:none;margin-bottom:8px">
-        🔑 使用 GitHub 登录
+      <a :href="oauthUrl" class="btn btn-github" style="width:100%;justify-content:center;text-decoration:none;margin-bottom:8px">
+        𝔾 使用 GitHub 登录
       </a>
 
       <!-- Token -->
