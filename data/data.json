@@ -33,9 +33,9 @@
       }
     ],
     "bgCustomActive": 0,
-    "bgBlur": 37,
-    "cardOpacity": 0.92,
-    "cardBlur": 22,
+    "bgBlur": 30,
+    "cardOpacity": 0.95,
+    "cardBlur": 30,
     "theme": "aero",
     "pagination": {
       "enabled": true,
