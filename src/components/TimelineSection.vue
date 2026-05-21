@@ -70,13 +70,13 @@ function confirmDelete(site) {
 <template>
   <div class="section-card">
     <div class="section-title">
-      <span>{{ section.title }}</span>
+      <span>历程</span>
       <button
         v-if="store.isLoggedIn"
         class="btn btn-sm btn-primary"
         @click="store.showAddSite = true"
       >
-        ＋ 添加网站
+        ＋ 添加
       </button>
     </div>
 
@@ -117,34 +117,35 @@ function confirmDelete(site) {
         >
           <div class="timeline-date">{{ site.date }}</div>
           <div class="timeline-item-body">
-            <!-- 网站图标 -->
-            <div v-if="site.icon" class="timeline-icon">
-              <img
-                :src="site.icon"
-                :alt="site.name + ' 图标'"
-                loading="lazy"
-                @error="$event.target.closest('.timeline-icon').classList.add('hidden')"
-              />
-            </div>
-            <div v-else class="timeline-icon-placeholder"></div>
+            <!-- 说说：纯文本 -->
+            <template v-if="site.type === 'post'">
+              <div class="timeline-icon-placeholder"></div>
+              <div class="timeline-info">
+                <div class="timeline-post">{{ site.content }}</div>
+                <div v-if="site.tags && site.tags.length" class="timeline-tags">
+                  <span v-for="(tag, i) in site.tags" :key="i" class="timeline-tag">{{ tag }}</span>
+                </div>
+              </div>
+            </template>
 
-            <!-- 网站信息 -->
-            <div class="timeline-info">
-              <div class="timeline-name">
-                <a :href="site.url" target="_blank" rel="noopener">
-                  {{ site.name }}
-                </a>
+            <!-- 链接：网站图标+名称+url+描述 -->
+            <template v-else>
+              <div v-if="site.icon" class="timeline-icon">
+                <img :src="site.icon" :alt="site.name + ' 图标'" loading="lazy"
+                  @error="$event.target.closest('.timeline-icon').classList.add('hidden')" />
               </div>
-              <div class="timeline-url">{{ cleanUrl(site.url) }}</div>
-              <div v-if="site.description" class="timeline-desc">
-                {{ site.description }}
+              <div v-else class="timeline-icon-placeholder"></div>
+              <div class="timeline-info">
+                <div class="timeline-name">
+                  <a :href="site.url" target="_blank" rel="noopener">{{ site.name }}</a>
+                </div>
+                <div class="timeline-url">{{ cleanUrl(site.url) }}</div>
+                <div v-if="site.description" class="timeline-desc">{{ site.description }}</div>
+                <div v-if="site.tags && site.tags.length" class="timeline-tags">
+                  <span v-for="(tag, i) in site.tags" :key="i" class="timeline-tag">{{ tag }}</span>
+                </div>
               </div>
-              <div v-if="site.tags && site.tags.length" class="timeline-tags">
-                <span v-for="(tag, i) in site.tags" :key="i" class="timeline-tag">
-                  {{ tag }}
-                </span>
-              </div>
-            </div>
+            </template>
           </div>
 
           <!-- 管理员操作按钮 -->

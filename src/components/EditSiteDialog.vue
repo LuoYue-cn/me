@@ -2,111 +2,121 @@
 import { ref, reactive, watch } from 'vue'
 import { useAppStore } from '../stores/app.js'
 
-const props = defineProps({
-  site: { type: Object, required: true },
-})
-
 const store = useAppStore()
 
+const props = defineProps({ site: { type: Object, required: true } })
+
 const form = reactive({
-  name: props.site.name,
-  url: props.site.url,
+  type: props.site.type || 'link',
+  name: props.site.name || '',
+  url: props.site.url || '',
   description: props.site.description || '',
-  date: props.site.date || '',
   icon: props.site.icon || '',
+  content: props.site.content || '',
+  date: props.site.date || '',
   tags: (props.site.tags || []).join(' '),
 })
 
 const error = ref('')
 
-// 如果外部传入的 site 变了，更新表单
-watch(() => props.site, (newSite) => {
-  form.name = newSite.name
-  form.url = newSite.url
-  form.description = newSite.description || ''
-  form.date = newSite.date || ''
-  form.icon = newSite.icon || ''
-  form.tags = (newSite.tags || []).join(' ')
+watch(() => props.site, (ns) => {
+  form.type = ns.type || 'link'
+  form.name = ns.name || ''
+  form.url = ns.url || ''
+  form.description = ns.description || ''
+  form.icon = ns.icon || ''
+  form.content = ns.content || ''
+  form.date = ns.date || ''
+  form.tags = (ns.tags || []).join(' ')
 }, { deep: true })
 
-function close() {
-  store.showEditSite = null
-}
+function close() { store.showEditSite = null }
 
 async function save() {
-  if (!form.name || !form.url) {
-    error.value = '网站名称和 URL 为必填'
-    return
+  if (form.type === 'link' && (!form.name || !form.url)) {
+    error.value = '名称和 URL 为必填'; return
+  }
+  if (form.type === 'post' && !form.content.trim()) {
+    error.value = '内容不能为空'; return
   }
   error.value = ''
 
-  store.updateWebsite(props.site.id, {
-    name: form.name,
-    url: form.url.startsWith('http') ? form.url : 'https://' + form.url,
-    description: form.description,
+  const updates = {
+    type: form.type,
     date: form.date,
-    icon: form.icon,
-    tags: form.tags
-      .split(/[,，、\s]+/)
-      .filter(Boolean)
-      .slice(0, 5),
-  })
-
-  try {
-    await store.save()
-    close()
-  } catch (e) {
-    error.value = '保存失败: ' + e.message
+    tags: form.tags.split(/[,，、\s]+/).filter(Boolean).slice(0, 5),
   }
+  if (form.type === 'post') {
+    updates.content = form.content
+  } else {
+    updates.name = form.name
+    updates.url = form.url.startsWith('http') ? form.url : 'https://' + form.url
+    updates.description = form.description
+    updates.icon = form.icon
+  }
+  store.updateWebsite(props.site.id, updates)
+  try { await store.save(); close() }
+  catch (e) { error.value = '保存失败: ' + e.message }
 }
 </script>
 
 <template>
   <div class="overlay" @click.self="close">
     <div class="dialog">
-      <div class="dialog-title">✏ 编辑网站</div>
+      <div class="dialog-title">✏ 编辑</div>
+      <div v-if="error" class="error-text">{{ error }}</div>
 
-      <div v-if="error" class="error-text">
-        {{ error }}
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">网站名称 *</label>
-          <input v-model="form.name" class="form-input" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">URL *</label>
-          <input v-model="form.url" class="form-input" />
+      <!-- 类型 -->
+      <div class="form-group">
+        <label class="form-label">类型</label>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-sm" :class="{ 'btn-primary': form.type === 'link' }" @click="form.type = 'link'">链接</button>
+          <button class="btn btn-sm" :class="{ 'btn-primary': form.type === 'post' }" @click="form.type = 'post'">说说</button>
         </div>
       </div>
 
-      <div class="form-group">
-        <label class="form-label">描述</label>
-        <input v-model="form.description" class="form-input" />
-      </div>
+      <template v-if="form.type === 'link'">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">名称 *</label>
+            <input v-model="form.name" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">URL *</label>
+            <input v-model="form.url" class="form-input" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">描述</label>
+          <input v-model="form.description" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">图标 URL</label>
+          <input v-model="form.icon" class="form-input" />
+        </div>
+      </template>
 
-      <div class="form-group">
-        <label class="form-label">图标 URL</label>
-        <input v-model="form.icon" class="form-input" placeholder="https://example.com/favicon.ico" />
-      </div>
+      <template v-else>
+        <div class="form-group">
+          <label class="form-label">内容</label>
+          <textarea v-model="form.content" class="form-textarea" rows="4"></textarea>
+        </div>
+      </template>
 
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">发布日期</label>
+          <label class="form-label">日期</label>
           <input v-model="form.date" type="date" class="form-input" />
         </div>
         <div class="form-group">
           <label class="form-label">标签</label>
-          <input v-model="form.tags" class="form-input" placeholder="博客 技术" />
+          <input v-model="form.tags" class="form-input" placeholder="空格分隔" />
         </div>
       </div>
 
       <div class="form-actions">
         <button class="btn" @click="close">取消</button>
-        <button class="btn btn-primary" :disabled="store.saving" @click="save">
-          {{ store.saving ? '保存中...' : '💾 保存' }}
-        </button>
+        <button class="btn btn-primary" :disabled="store.saving" @click="save">{{ store.saving ? '保存中...' : '💾 保存' }}</button>
       </div>
     </div>
   </div>

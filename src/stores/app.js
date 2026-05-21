@@ -34,6 +34,7 @@ function defaultData() {
     websites: [
       {
         id: 'demo-1',
+        type: 'link',
         name: '示例网站',
         url: 'https://example.com',
         description: '这是我的第一个项目',
@@ -255,21 +256,38 @@ export const useAppStore = defineStore('app', {
     // ============ 网站操作 ============
 
     addWebsite(site) {
-      this.data.websites.push({
+      const entry = {
         id: genId(),
-        name: site.name,
-        url: site.url,
-        description: site.description || '',
+        type: site.type || 'link',
         date: site.date || formatDate(new Date()),
-        icon: site.icon || '',
         tags: site.tags || [],
-      })
+      }
+      if (entry.type === 'post') {
+        entry.content = site.content || ''
+      } else {
+        entry.name = site.name || ''
+        entry.url = site.url || ''
+        entry.description = site.description || ''
+        entry.icon = site.icon || ''
+      }
+      this.data.websites.push(entry)
     },
 
     updateWebsite(id, updates) {
       const idx = this.data.websites.findIndex(s => s.id === id)
       if (idx !== -1) {
-        Object.assign(this.data.websites[idx], updates)
+        const entry = this.data.websites[idx]
+        if (updates.type === 'post') {
+          // 切到 post：清除 link 字段
+          Object.assign(entry, updates)
+          entry.name = ''; entry.url = ''; entry.description = ''; entry.icon = ''
+        } else if (entry.type === 'post' && updates.type !== 'post') {
+          // 从 post 切回 link：清除 content
+          entry.content = ''
+          Object.assign(entry, updates)
+        } else {
+          Object.assign(entry, updates)
+        }
       }
     },
 

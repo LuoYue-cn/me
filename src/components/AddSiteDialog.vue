@@ -4,90 +4,99 @@ import { useAppStore } from '../stores/app.js'
 
 const store = useAppStore()
 
+const entryType = ref('link')
 const form = reactive({
-  name: '',
-  url: '',
-  description: '',
+  name: '', url: '', description: '', icon: '',
+  content: '',
   date: new Date().toISOString().slice(0, 10),
-  icon: '',
   tags: '',
 })
 
 const error = ref('')
 
-function close() {
-  store.showAddSite = false
-}
+function close() { store.showAddSite = false }
 
 async function save() {
-  if (!form.name || !form.url) {
-    error.value = '网站名称和 URL 为必填'
-    return
+  if (entryType.value === 'link' && (!form.name || !form.url)) {
+    error.value = '名称和 URL 为必填'; return
+  }
+  if (entryType.value === 'post' && !form.content.trim()) {
+    error.value = '内容不能为空'; return
   }
   error.value = ''
-
-  store.addWebsite({
-    name: form.name,
-    url: form.url.startsWith('http') ? form.url : 'https://' + form.url,
-    description: form.description,
+  const base = {
+    type: entryType.value,
     date: form.date,
-    icon: form.icon,
-    tags: form.tags
-      .split(/[,，、\s]+/)
-      .filter(Boolean)
-      .slice(0, 5),
-  })
-
-  try {
-    await store.save()
-    close()
-  } catch (e) {
-    error.value = '保存失败: ' + e.message
+    tags: form.tags.split(/[,，、\s]+/).filter(Boolean).slice(0, 5),
   }
+  if (entryType.value === 'post') {
+    store.addWebsite({ ...base, content: form.content })
+  } else {
+    store.addWebsite({
+      ...base, name: form.name,
+      url: form.url.startsWith('http') ? form.url : 'https://' + form.url,
+      description: form.description, icon: form.icon,
+    })
+  }
+  try { await store.save(); close() }
+  catch (e) { error.value = '保存失败: ' + e.message }
 }
 </script>
 
 <template>
   <div class="overlay" @click.self="close">
     <div class="dialog">
-      <div class="dialog-title">＋ 添加网站</div>
+      <div class="dialog-title">＋ 添加</div>
+      <div v-if="error" class="error-text">{{ error }}</div>
 
-      <div v-if="error" class="error-text">
-        {{ error }}
+      <!-- 类型选择 -->
+      <div class="form-group">
+        <label class="form-label">类型</label>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-sm" :class="{ 'btn-primary': entryType === 'link' }" @click="entryType = 'link'">链接</button>
+          <button class="btn btn-sm" :class="{ 'btn-primary': entryType === 'post' }" @click="entryType = 'post'">说说</button>
+        </div>
       </div>
 
+      <!-- 链接字段 -->
+      <template v-if="entryType === 'link'">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">名称 *</label>
+            <input v-model="form.name" class="form-input" placeholder="我的博客" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">URL *</label>
+            <input v-model="form.url" class="form-input" placeholder="blog.example.com" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">描述</label>
+          <input v-model="form.description" class="form-input" placeholder="一句话描述" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">图标 URL</label>
+          <input v-model="form.icon" class="form-input" placeholder="https://example.com/favicon.ico" />
+        </div>
+      </template>
+
+      <!-- 说说字段 -->
+      <template v-else>
+        <div class="form-group">
+          <label class="form-label">内容</label>
+          <textarea v-model="form.content" class="form-textarea" rows="4" placeholder="写点什么…"></textarea>
+        </div>
+      </template>
+
+      <!-- 公共字段 -->
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">网站名称 *</label>
-          <input v-model="form.name" class="form-input" placeholder="我的博客" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">URL *</label>
-          <input v-model="form.url" class="form-input" placeholder="blog.example.com" />
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">描述</label>
-        <input v-model="form.description" class="form-input" placeholder="一句话描述" />
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">图标 URL</label>
-        <input v-model="form.icon" class="form-input" placeholder="https://example.com/favicon.ico" />
-        <div style="font-size:12px;color:var(--text-muted);margin-top:2px">
-          网站 favicon 图标，可选。推荐用 <code>https://www.google.com/s2/favicons?domain=example.com</code>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">发布日期</label>
+          <label class="form-label">日期</label>
           <input v-model="form.date" type="date" class="form-input" />
         </div>
         <div class="form-group">
-          <label class="form-label">标签（空格分隔）</label>
-          <input v-model="form.tags" class="form-input" placeholder="博客 技术" />
+          <label class="form-label">标签</label>
+          <input v-model="form.tags" class="form-input" placeholder="空格分隔" />
         </div>
       </div>
 

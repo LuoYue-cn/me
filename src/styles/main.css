@@ -628,6 +628,13 @@ a:hover {
   margin-top: 1px;
   word-break: break-all;
 }
+.timeline-post {
+  font-size: 15px;
+  color: var(--text);
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
 .timeline-desc {
   font-size: 14px;
   color: var(--text-secondary);
