@@ -90,7 +90,7 @@ onMounted(async () => {
     document.documentElement.setAttribute('data-theme', s.theme || 'smooth')
     document.documentElement.style.setProperty('--bg-blur', s.bgBlur + 'px')
     document.documentElement.style.setProperty('--card-blur', (s.cardBlur ?? 10) + 'px')
-    document.documentElement.style.setProperty('--card-bg', `rgba(255,255,255,${s.cardOpacity})`)
+    document.documentElement.style.setProperty('--card-bg-alpha', s.cardOpacity)
     if (s.bgType === 'custom') {
       const urls = s.bgCustomUrls || []
       const activeUrl = urls[s.bgCustomActive] || s.bgCustom

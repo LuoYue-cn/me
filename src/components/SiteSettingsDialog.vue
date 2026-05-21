@@ -92,8 +92,7 @@ async function save() {
 
 function applySettings(f) {
   document.documentElement.setAttribute('data-theme', f.theme || 'smooth')
-  document.documentElement.style.setProperty('--card-blur', f.bgBlur + 'px')
-  document.documentElement.style.setProperty('--card-bg', `rgba(255,255,255,${f.cardOpacity})`)
+  document.documentElement.style.setProperty('--card-bg-alpha', f.cardOpacity)
   document.documentElement.style.setProperty('--bg-blur', f.bgBlur + 'px')
   document.documentElement.style.setProperty('--card-blur', (f.cardBlur ?? 10) + 'px')
 
