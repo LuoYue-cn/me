@@ -167,23 +167,40 @@ function toast(msg) {
             <div v-if="ageInfo.daysToNext <= 365" class="age-detail">距 {{ ageInfo.years + 1 }} 岁生日还有 {{ ageInfo.daysToNext }} 天</div>
           </div>
 
-          <!-- ④ 标签筛选 -->
-          <div class="layout-tags">
-            <div class="section-card tag-filter" v-if="store.allTags.length">
-              <div class="tag-filter-list">
-                <span
-                  class="tag-filter-item"
-                  :class="{ active: !store.selectedTag }"
-                  @click="store.setTag('')"
-                >全部</span>
-                <span
-                  v-for="tag in store.allTags"
-                  :key="tag"
-                  class="tag-filter-item"
-                  :class="{ active: store.selectedTag === tag }"
-                  @click="store.setTag(tag)"
-                >{{ tag }}</span>
+          <!-- ④ 筛选：年 / 月 / 标签 -->
+          <div class="section-card tag-filter">
+            <div style="font-size:14px;font-weight:600;margin-bottom:10px">筛选</div>
+
+            <!-- 年份 -->
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">年份</div>
+            <div class="tag-filter-list" style="margin-bottom:8px">
+              <span class="tag-filter-item" :class="{ active: !store.selectedYear }"
+                @click="store.setYear('')">全部</span>
+              <span v-for="y in store.allYears" :key="y" class="tag-filter-item"
+                :class="{ active: store.selectedYear === y }"
+                @click="store.setYear(y)">{{ y }}</span>
+            </div>
+
+            <!-- 月份（只当选中某年时显示） -->
+            <template v-if="store.selectedYear">
+              <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">月份</div>
+              <div class="tag-filter-list" style="margin-bottom:8px">
+                <span class="tag-filter-item" :class="{ active: !store.selectedMonth }"
+                  @click="store.setMonth('')">全部</span>
+                <span v-for="m in 12" :key="m" class="tag-filter-item"
+                  :class="{ active: store.selectedMonth === String(m).padStart(2,'0') }"
+                  @click="store.setMonth(String(m).padStart(2,'0'))">{{ m }}</span>
               </div>
+            </template>
+
+            <!-- 标签 -->
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">标签</div>
+            <div class="tag-filter-list">
+              <span class="tag-filter-item" :class="{ active: !store.selectedTag }"
+                @click="store.setTag('')">全部</span>
+              <span v-for="tag in store.allTags" :key="tag" class="tag-filter-item"
+                :class="{ active: store.selectedTag === tag }"
+                @click="store.setTag(tag)">{{ tag }}</span>
             </div>
           </div>
         </div>

@@ -68,8 +68,10 @@ export const useAppStore = defineStore('app', {
     saving: false,         // 正在保存
     error: null,           // 错误消息
 
-    // 标签筛选
+    // 筛选
     selectedTag: '',
+    selectedYear: '',
+    selectedMonth: '',
 
     // 对话框
     showLogin: false,
@@ -98,18 +100,41 @@ export const useAppStore = defineStore('app', {
       return [...set].sort((a, b) => a.localeCompare(b, 'zh-Hans-CN'))
     },
 
-    // 按选中的标签过滤网站
+    // 可用的年份（有网站的年份，降序）
+    allYears: (state) => {
+      const set = new Set()
+      for (const site of (state.data?.websites || [])) {
+        if (site.date) set.add(site.date.slice(0, 4))
+      }
+      return [...set].sort((a, b) => b.localeCompare(a))
+    },
+
+    // 按所有筛选条件过滤网站
     filteredWebsites: (state) => {
-      if (!state.selectedTag) return state.data?.websites || []
-      return (state.data?.websites || []).filter(
-        site => site.tags && site.tags.includes(state.selectedTag)
-      )
+      let list = state.data?.websites || []
+      if (state.selectedTag) {
+        list = list.filter(s => s.tags && s.tags.includes(state.selectedTag))
+      }
+      if (state.selectedYear) {
+        list = list.filter(s => s.date && s.date.startsWith(state.selectedYear))
+      }
+      if (state.selectedMonth) {
+        list = list.filter(s => s.date && s.date.slice(5, 7) === state.selectedMonth)
+      }
+      return list
     },
   },
 
   actions: {
     setTag(tag) {
       this.selectedTag = tag
+    },
+    setYear(year) {
+      this.selectedYear = year
+      this.selectedMonth = ''
+    },
+    setMonth(month) {
+      this.selectedMonth = month
     },
 
     /**

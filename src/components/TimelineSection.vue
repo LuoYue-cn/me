@@ -31,8 +31,8 @@ const pageSites = computed(() => {
 // 翻页开关或每页条数变化时重置到第一页
 watch(() => [pag.value.enabled, pag.value.perPage], () => { page.value = 1 })
 
-// 标签筛选变化时重置到第一页
-watch(() => store.selectedTag, () => { page.value = 1 })
+// 筛选变化时重置到第一页
+watch(() => [store.selectedTag, store.selectedYear, store.selectedMonth], () => { page.value = 1 })
 
 // 按年份分组
 const grouped = computed(() => {
