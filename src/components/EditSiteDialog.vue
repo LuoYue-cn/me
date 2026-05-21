@@ -6,6 +6,12 @@ const store = useAppStore()
 
 const props = defineProps({ site: { type: Object, required: true } })
 
+function splitDate(v) {
+  if (!v) return { date: '', time: '' }
+  const [d, t = ''] = v.split('T')
+  return { date: d, time: t ? t.slice(0, 5) : '' }
+}
+const init = splitDate(props.site.date)
 const form = reactive({
   type: props.site.type || 'link',
   name: props.site.name || '',
@@ -13,7 +19,8 @@ const form = reactive({
   description: props.site.description || '',
   icon: props.site.icon || '',
   content: props.site.content || '',
-  date: props.site.date || '',
+  date: init.date,
+  time: init.time,
   tags: (props.site.tags || []).join(' '),
 })
 
@@ -26,7 +33,9 @@ watch(() => props.site, (ns) => {
   form.description = ns.description || ''
   form.icon = ns.icon || ''
   form.content = ns.content || ''
-  form.date = ns.date || ''
+  const sd = splitDate(ns.date)
+  form.date = sd.date
+  form.time = sd.time
   form.tags = (ns.tags || []).join(' ')
 }, { deep: true })
 
@@ -43,7 +52,7 @@ async function save() {
 
   const updates = {
     type: form.type,
-    date: form.date,
+    date: form.date + 'T' + (form.time || '00:00'),
     tags: form.tags.split(/[,，、\s]+/).filter(Boolean).slice(0, 5),
   }
   if (form.type === 'post') {
@@ -103,14 +112,18 @@ async function save() {
         </div>
       </template>
 
-      <div class="form-row">
+      <div class="form-row" style="grid-template-columns:1fr 1fr 1fr">
         <div class="form-group">
           <label class="form-label">日期</label>
           <input v-model="form.date" type="date" class="form-input" />
         </div>
         <div class="form-group">
+          <label class="form-label">时间</label>
+          <input v-model="form.time" type="time" class="form-input" />
+        </div>
+        <div class="form-group">
           <label class="form-label">标签</label>
-          <input v-model="form.tags" class="form-input" placeholder="空格分隔" />
+          <input v-model="form.tags" class="form-input" placeholder="空格" />
         </div>
       </div>
 

@@ -113,7 +113,7 @@ function confirmDelete(site) {
           v-memo="[site.id, store.isLoggedIn]"
           class="timeline-item"
         >
-          <div class="timeline-date">{{ site.date }}</div>
+          <div class="timeline-date">{{ site.date?.slice(0, 10) }}</div>
           <div class="timeline-item-body">
             <!-- 说说：纯文本 -->
             <template v-if="site.type === 'post'">

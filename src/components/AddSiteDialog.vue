@@ -5,10 +5,21 @@ import { useAppStore } from '../stores/app.js'
 const store = useAppStore()
 
 const entryType = ref('link')
+function nowLocal() {
+  const d = new Date()
+  const y = d.getFullYear()
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  const hh = String(d.getHours()).padStart(2, '0')
+  const mm = String(d.getMinutes()).padStart(2, '0')
+  return { date: `${y}-${m}-${day}`, time: `${hh}:${mm}` }
+}
+const init = nowLocal()
 const form = reactive({
   name: '', url: '', description: '', icon: '',
   content: '',
-  date: new Date().toISOString().slice(0, 10),
+  date: init.date,
+  time: init.time,
   tags: '',
 })
 
@@ -26,7 +37,7 @@ async function save() {
   error.value = ''
   const base = {
     type: entryType.value,
-    date: form.date,
+    date: form.date + 'T' + (form.time || '00:00'),
     tags: form.tags.split(/[,，、\s]+/).filter(Boolean).slice(0, 5),
   }
   if (entryType.value === 'post') {
@@ -89,14 +100,18 @@ async function save() {
       </template>
 
       <!-- 公共字段 -->
-      <div class="form-row">
+      <div class="form-row" style="grid-template-columns:1fr 1fr 1fr">
         <div class="form-group">
           <label class="form-label">日期</label>
           <input v-model="form.date" type="date" class="form-input" />
         </div>
         <div class="form-group">
+          <label class="form-label">时间</label>
+          <input v-model="form.time" type="time" class="form-input" />
+        </div>
+        <div class="form-group">
           <label class="form-label">标签</label>
-          <input v-model="form.tags" class="form-input" placeholder="空格分隔" />
+          <input v-model="form.tags" class="form-input" placeholder="空格" />
         </div>
       </div>
 
