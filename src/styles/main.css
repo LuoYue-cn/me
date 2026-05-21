@@ -25,7 +25,7 @@
   --bg: rgba(0,0,0,0.3);
   --card-bg: rgba(10,10,30,0.85);
   --card-blur: 4px;
-  --card-border: 1px solid #00ffcc;
+  --card-border: #00ffcc;
   --text: #00ffcc;
   --text-secondary: #ff00aa;
   --text-muted: #666;
@@ -36,6 +36,10 @@
   --shadow: 0 0 20px rgba(0,255,204,0.15);
   --shadow-lg: 0 0 40px rgba(0,255,204,0.1);
   --font: inherit;
+}
+[data-theme="cyberpunk"] .section-card {
+  border: 1px solid #00ffcc;
+  box-shadow: 0 0 12px rgba(0,255,204,0.15), inset 0 0 12px rgba(0,255,204,0.03);
 }
 
 /* Aero 玻璃 */
