@@ -18,9 +18,9 @@
     "bgCustom": "",
     "bgCustomUrls": [],
     "bgCustomActive": 0,
-    "bgBlur": 0,
+    "bgBlur": 37,
     "cardOpacity": 0.77,
-    "cardBlur": 26,
+    "cardBlur": 29,
     "theme": "aero",
     "pagination": {
       "enabled": true,
