@@ -4,9 +4,14 @@
     "bio": "我是落月？",
     "avatar": "https://pic.h666h.com/pic/Mortis.jpg",
     "skills": [
-      { "name": "Python", "level": 85 },
-      { "name": "JavaScript", "level": 70 },
-      { "name": "TypeScript", "level": 55 }
+      {
+        "name": "C",
+        "level": 35
+      },
+      {
+        "name": "Go",
+        "level": 3
+      }
     ],
     "social": [
       {
