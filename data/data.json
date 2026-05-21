@@ -79,6 +79,18 @@
       "url": "",
       "description": "",
       "icon": ""
+    },
+    {
+      "id": "id-1779380200094-hsoq",
+      "type": "link",
+      "date": "2026-05-19T21:00",
+      "tags": [
+        "项目"
+      ],
+      "name": "政治倾向测试",
+      "url": "https://political-tendencies-test.h666h.com/",
+      "description": "政治倾向测试项目上线",
+      "icon": "https://pic.h666h.com/pic/political-tendencies-test_logo.png"
     }
   ]
 }
