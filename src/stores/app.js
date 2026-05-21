@@ -11,6 +11,7 @@ function defaultData() {
       name: '你的名字',
       bio: '个人简介',
       avatar: '',
+      skills: [],
       social: [
         { platform: 'GitHub', url: 'https://github.com/LuoYue-cn', icon: 'github', show: true },
       ],

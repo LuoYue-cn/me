@@ -928,6 +928,56 @@ a:hover {
   transform: translateX(16px);
 }
 
+/* ============ 技能进度条 ============ */
+.skill-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+.skill-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.skill-bar-label {
+  flex: 0 0 80px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-bar-track {
+  flex: 1;
+  height: 8px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.skill-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+.skill-bar-pct {
+  flex: 0 0 32px;
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+/* 编辑器里的技能行 */
+.skill-editor-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 /* ============ 社交链接编辑器（2列网格） ============ */
 .social-editor-grid {
   display: flex;
