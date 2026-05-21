@@ -78,7 +78,9 @@ export default {
             }),
           }
         )
-        const ghData = await ghRes.json()
+        const ghText = await ghRes.text()
+        let ghData
+        try { ghData = JSON.parse(ghText) } catch { return json({ error: 'GitHub 返回非 JSON: ' + ghText.slice(0, 200) }, 500) }
         if (!ghRes.ok) return json({ error: 'GitHub: ' + (ghData.message || ghRes.status) }, 500)
         return json({ sha: ghData.content.sha })
       } catch (e) {
