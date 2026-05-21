@@ -938,8 +938,8 @@ a:hover {
 }
 .skill-bar-row {
   display: grid;
-  grid-template-columns: 70px 1fr 36px;
-  gap: 6px 10px;
+  grid-template-columns: 70px 1fr 28px;
+  gap: 6px 4px;
   align-items: center;
 }
 .skill-bar-label {
