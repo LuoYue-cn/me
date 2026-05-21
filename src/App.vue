@@ -63,7 +63,10 @@ const ageInfo = computed(() => {
 const bgClass = computed(() => {
   const s = store.data?.settings
   if (!s) return 'bg-preset-ocean'
-  if (s.bgType === 'custom' && s.bgCustom) return ''
+  if (s.bgType === 'custom') {
+    const hasUrl = s.bgCustom || (s.bgCustomUrls && s.bgCustomUrls.length)
+    if (hasUrl) return ''
+  }
   return 'bg-preset-' + s.bgPreset
 })
 
