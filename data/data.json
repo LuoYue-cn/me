@@ -69,16 +69,16 @@
     },
     {
       "id": "example-2",
-      "type": "post",
-      "content": "今天完成了个人主页的第一版，支持密码登录和主题切换 🎉",
+      "type": "link",
+      "content": "",
       "date": "2026-05-21T21:20",
       "tags": [
         "里程碑"
       ],
-      "name": "",
-      "url": "",
-      "description": "",
-      "icon": ""
+      "name": "个人主页",
+      "url": "https://me.h666h.com/",
+      "description": "今天完成了个人主页的第一版，支持密码登录和主题切换🎉",
+      "icon": "https://pic.h666h.com/pic/Mortis.jpg"
     },
     {
       "id": "id-1779380200094-hsoq",
