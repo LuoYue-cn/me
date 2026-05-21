@@ -104,43 +104,6 @@ export async function verifyToken(token) {
   return user.login
 }
 
-// ==========================================
-// Device Flow (无需服务器的 OAuth 登录)
-// ==========================================
-
-/**
- * 第一步：请求设备码和用户码
- */
-export async function requestDeviceCode() {
-  const res = await fetch('https://github.com/login/device/code', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-    body: JSON.stringify({ client_id: config.oauthClientId, scope: 'repo' }),
-  })
-  if (!res.ok) throw new Error('获取设备码失败: ' + res.status)
-  return res.json()  // { device_code, user_code, verification_uri, interval }
-}
-
-/**
- * 第二步：轮询检查用户是否已授权
- */
-export async function pollAccessToken(deviceCode, interval = 5) {
-  const res = await fetch('https://github.com/login/oauth/access_token', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-    body: JSON.stringify({
-      client_id: config.oauthClientId,
-      device_code: deviceCode,
-      grant_type: 'urn:ietf:params:oauth:grant-type:device_code',
-    }),
-  })
-  const data = await res.json()
-  if (data.error === 'authorization_pending') return null   // 还没扫码
-  if (data.error === 'slow_down') return null                // 轮询太快
-  if (data.access_token) return data.access_token
-  throw new Error(data.error_description || '授权失败')
-}
-
 /**
  * 保存 token 到 localStorage
  */
