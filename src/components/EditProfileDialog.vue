@@ -63,7 +63,7 @@ async function save() {
 
       <div class="form-group">
         <label class="form-label">简介</label>
-        <input v-model="form.bio" class="form-input" placeholder="一句话介绍自己" />
+        <textarea v-model="form.bio" class="form-textarea" rows="3" placeholder="一句话介绍自己，支持换行"></textarea>
       </div>
 
       <div class="form-group">
