@@ -19,12 +19,12 @@
     "bgCustomUrls": [],
     "bgCustomActive": 0,
     "bgBlur": 0,
-    "cardOpacity": 0.71,
-    "cardBlur": 21,
-    "theme": "retro",
+    "cardOpacity": 0.65,
+    "cardBlur": 30,
+    "theme": "aero",
     "pagination": {
       "enabled": true,
-      "perPage": 10
+      "perPage": 26
     }
   },
   "sections": [
