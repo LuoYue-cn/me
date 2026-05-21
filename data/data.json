@@ -23,7 +23,7 @@
     "cardBlur": 30,
     "theme": "retro",
     "pagination": {
-      "enabled": false,
+      "enabled": true,
       "perPage": 10
     }
   },
