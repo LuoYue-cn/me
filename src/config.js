@@ -9,11 +9,8 @@ export default {
   dataPath: 'data/data.json',      // 数据文件路径
   branch: 'main',                  // 分支
 
-  // === GitHub OAuth App 信息（可选，用于 OAuth 登录）===
-  // 去 https://github.com/settings/developers 创建 OAuth App
-  // Homepage URL: https://me.h666h.com
-  // Authorization callback URL: https://me.h666h.com
-  oauthClientId: '',
+  // === GitHub OAuth App 信息（可选，用于 Device Flow 登录）===
+  oauthClientId: 'Ov23liH0dS1485d58SxJ',
 
   // === 网站信息 ===
   siteTitle: '我的主页',
