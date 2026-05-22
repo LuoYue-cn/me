@@ -597,7 +597,9 @@ a:hover {
   flex: 1;
   min-width: 0;
 }
-.timeline-item:hover {
+.timeline-item:hover,
+.timeline-item:active,
+.timeline-item:focus-within {
   border-left-color: var(--accent);
 }
 .timeline-item::before {
@@ -612,7 +614,9 @@ a:hover {
   border-radius: 50%;
   transition: all 0.2s;
 }
-.timeline-item:hover::before {
+.timeline-item:hover::before,
+.timeline-item:active::before,
+.timeline-item:focus-within::before {
   border-color: var(--accent);
   background: var(--accent);
 }
