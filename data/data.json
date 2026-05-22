@@ -141,10 +141,14 @@
       "date": "2026-05-23T07:20",
       "tags": [
         "项目",
-        "主页"
+        "主页",
+        "随手"
       ],
       "content": "尝试使用GitHub部署二开astro+fuwari的博客，失败了。。正在测试主页博客",
-      "icon": ""
+      "icon": "",
+      "name": "",
+      "url": "",
+      "description": ""
     }
   ]
 }
