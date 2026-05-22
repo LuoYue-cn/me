@@ -38,10 +38,11 @@
     "cardBlur": 30,
     "theme": "aero",
     "pagination": {
-      "enabled": true,
+      "enabled": false,
       "perPage": 5
     },
-    "siteIcon": "https://pic.h666h.com/pic/Mortis.jpg"
+    "siteIcon": "https://pic.h666h.com/pic/Mortis.jpg",
+    "placeholderIcon": ""
   },
   "sections": [
     {
