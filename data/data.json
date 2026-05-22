@@ -23,8 +23,8 @@
     ]
   },
   "settings": {
-    "bgType": "custom",
-    "bgPreset": "ocean",
+    "bgType": "preset",
+    "bgPreset": "midnight",
     "bgCustom": "",
     "bgCustomUrls": [
       {
