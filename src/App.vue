@@ -23,7 +23,6 @@ const clockStr = ref('')
 // ===== 年龄计算 =====
 const BIRTH = new Date('2011-04-02')
 const now = ref(new Date())
-let timer
 let clockTimer
 
 function pad(n) { return String(n).padStart(2, '0') }
@@ -38,11 +37,12 @@ function updateClock() {
 
 onMounted(() => {
   updateClock()
-  clockTimer = setInterval(updateClock, 1000)
-  timer = setInterval(() => { now.value = new Date() }, 60000)
+  clockTimer = setInterval(() => {
+    updateClock()
+    now.value = new Date()
+  }, 1000)
 })
 onUnmounted(() => {
-  clearInterval(timer)
   clearInterval(clockTimer)
 })
 
