@@ -125,8 +125,9 @@ function confirmDelete(site) {
               <div v-else class="timeline-icon-placeholder"></div>
               <div class="timeline-info">
                 <div class="timeline-post">{{ site.content }}</div>
-                <div v-if="site.tags && site.tags.length" class="timeline-tags">
-                  <span v-for="(tag, i) in site.tags" :key="i" class="timeline-tag">{{ tag }}</span>
+                <div class="timeline-tags">
+                  <span class="timeline-tag timeline-tag-type">{{ site.type === 'post' ? '📝' : '🔗' }}</span>
+                  <span v-for="(tag, i) in site.tags" :key="i" v-if="site.tags?.length" class="timeline-tag">{{ tag }}</span>
                 </div>
               </div>
             </template>
@@ -144,8 +145,9 @@ function confirmDelete(site) {
                 </div>
                 <div class="timeline-url">{{ cleanUrl(site.url) }}</div>
                 <div v-if="site.description" class="timeline-desc">{{ site.description }}</div>
-                <div v-if="site.tags && site.tags.length" class="timeline-tags">
-                  <span v-for="(tag, i) in site.tags" :key="i" class="timeline-tag">{{ tag }}</span>
+                <div class="timeline-tags">
+                  <span class="timeline-tag timeline-tag-type">{{ site.type === 'post' ? '📝' : '🔗' }}</span>
+                  <span v-for="(tag, i) in site.tags" :key="i" v-if="site.tags?.length" class="timeline-tag">{{ tag }}</span>
                 </div>
               </div>
             </template>

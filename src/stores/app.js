@@ -100,10 +100,12 @@ export const useAppStore = defineStore('app', {
     profile: (state) => state.data?.profile || { name: '', bio: '', avatar: '', social: [] },
     sections: (state) => state.data?.sections || [],
 
-    // 所有不重复的标签，按拼音排序
+    // 所有不重复的标签，按拼音排序（含虚拟类型标签）
     allTags: (state) => {
       const set = new Set()
       for (const site of (state.data?.websites || [])) {
+        if (site.type === 'post') set.add('📝 说说')
+        else set.add('🔗 链接')
         for (const tag of (site.tags || [])) {
           if (tag) set.add(tag)
         }
@@ -124,7 +126,13 @@ export const useAppStore = defineStore('app', {
     filteredWebsites: (state) => {
       let list = state.data?.websites || []
       if (state.selectedTag) {
-        list = list.filter(s => s.tags && s.tags.includes(state.selectedTag))
+        if (state.selectedTag === '🔗 链接') {
+          list = list.filter(s => s.type === 'link')
+        } else if (state.selectedTag === '📝 说说') {
+          list = list.filter(s => s.type === 'post')
+        } else {
+          list = list.filter(s => s.tags && s.tags.includes(state.selectedTag))
+        }
       }
       if (state.selectedYear) {
         list = list.filter(s => s.date && s.date.startsWith(state.selectedYear))

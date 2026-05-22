@@ -585,7 +585,7 @@ a:hover {
   object-fit: contain;
 }
 .timeline-icon.hidden {
-  display: none;
+  opacity: 0;
 }
 .timeline-icon-placeholder {
   width: 24px;
@@ -667,6 +667,11 @@ a:hover {
   color: var(--text-secondary);
   padding: 1px 8px;
   border-radius: 10px;
+}
+.timeline-tag-type {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
 }
 
 .timeline-actions {
