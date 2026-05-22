@@ -505,6 +505,7 @@ a:hover {
   border-radius: 20px;
   font-size: 13px;
   cursor: pointer;
+  touch-action: manipulation;
   background: var(--bg);
   color: var(--text-secondary);
   border: 1px solid transparent;

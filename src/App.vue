@@ -192,7 +192,7 @@ function toast(msg) {
                 @click="store.setYear('')">全部</span>
               <span v-for="y in store.allYears" :key="y" class="tag-filter-item"
                 :class="{ active: store.selectedYear === y }"
-                @click="store.setYear(y)" @touchend.prevent="store.setYear(y)">{{ y }}</span>
+                @click="store.setYear(y)">{{ y }}</span>
             </div>
 
             <!-- 月份（只当选中某年时显示） -->
@@ -200,10 +200,10 @@ function toast(msg) {
               <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">月份</div>
               <div class="tag-filter-list" style="margin-bottom:8px">
                 <span class="tag-filter-item" :class="{ active: !store.selectedMonth }"
-                  @click="store.setMonth('')" @touchend.prevent="store.setMonth('')">全部</span>
+                  @click="store.setMonth('')">全部</span>
                 <span v-for="m in 12" :key="m" class="tag-filter-item"
                   :class="{ active: store.selectedMonth === String(m).padStart(2,'0') }"
-                  @click="store.setMonth(String(m).padStart(2,'0'))" @touchend.prevent="store.setMonth(String(m).padStart(2,'0'))">{{ m }}</span>
+                  @click="store.setMonth(String(m).padStart(2,'0'))">{{ m }}</span>
               </div>
             </template>
 
@@ -214,8 +214,7 @@ function toast(msg) {
                 @click="store.selectedTags = []">全部</span>
               <span v-for="tag in store.allTags" :key="tag" class="tag-filter-item"
                 :class="{ active: store.selectedTags.includes(tag) }"
-                @click="store.toggleTag(tag)"
-                @touchend.prevent="store.toggleTag(tag)">{{ tag }}</span>
+                @click="store.toggleTag(tag)">{{ tag }}</span>
             </div>
           </div>
         </div>
