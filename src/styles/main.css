@@ -954,17 +954,19 @@ a:hover {
   margin-top: 16px;
 }
 .skill-bar-row {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 6px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-bar-header {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 .skill-bar-label {
   font-size: 13px;
   font-weight: 600;
   color: var(--text);
-  text-align: right;
-  white-space: nowrap;
 }
 .skill-bar-track {
   flex: 1;
@@ -982,7 +984,6 @@ a:hover {
 .skill-bar-pct {
   font-size: 12px;
   color: var(--text-muted);
-  text-align: right;
 }
 
 /* 编辑器里的技能行 */
