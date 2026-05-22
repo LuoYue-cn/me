@@ -150,9 +150,11 @@ export const useAppStore = defineStore('app', {
 
   actions: {
     toggleTag(tag) {
-      const idx = this.selectedTags.indexOf(tag)
-      if (idx >= 0) this.selectedTags.splice(idx, 1)
-      else this.selectedTags.push(tag)
+      if (this.selectedTags.includes(tag)) {
+        this.selectedTags = this.selectedTags.filter(t => t !== tag)
+      } else {
+        this.selectedTags = [...this.selectedTags, tag]
+      }
     },
     setYear(year) {
       this.selectedYear = year
