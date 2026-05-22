@@ -82,7 +82,7 @@ export const useAppStore = defineStore('app', {
 
     // 筛选
     selectedTags: [],
-    selectedYear: '',
+    selectedYears: [],
     selectedMonth: '',
 
     // 对话框
@@ -138,8 +138,8 @@ export const useAppStore = defineStore('app', {
           })
         })
       }
-      if (state.selectedYear) {
-        list = list.filter(s => s.date && s.date.startsWith(state.selectedYear))
+      if (state.selectedYears.length) {
+        list = list.filter(s => s.date && state.selectedYears.some(y => s.date.startsWith(y)))
       }
       if (state.selectedMonth) {
         list = list.filter(s => s.date && s.date.slice(5, 7) === state.selectedMonth)
@@ -156,8 +156,12 @@ export const useAppStore = defineStore('app', {
         this.selectedTags = [...this.selectedTags, tag]
       }
     },
-    setYear(year) {
-      this.selectedYear = year
+    toggleYear(year) {
+      if (this.selectedYears.includes(year)) {
+        this.selectedYears = this.selectedYears.filter(y => y !== year)
+      } else {
+        this.selectedYears = [...this.selectedYears, year]
+      }
       this.selectedMonth = ''
     },
     setMonth(month) {

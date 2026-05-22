@@ -188,15 +188,15 @@ function toast(msg) {
             <!-- 年份 -->
             <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">年份</div>
             <div class="tag-filter-list" style="margin-bottom:8px">
-              <span class="tag-filter-item" :class="{ active: !store.selectedYear }"
-                @click="store.setYear('')">全部</span>
+              <span class="tag-filter-item" :class="{ active: !store.selectedYears.length }"
+                @click="store.selectedYears = []">全部</span>
               <span v-for="y in store.allYears" :key="y" class="tag-filter-item"
-                :class="{ active: store.selectedYear === y }"
-                @click="store.setYear(y)">{{ y }}</span>
+                :class="{ active: store.selectedYears.includes(y) }"
+                @click="store.toggleYear(y)">{{ y }}</span>
             </div>
 
-            <!-- 月份（只当选中某年时显示） -->
-            <template v-if="store.selectedYear">
+            <!-- 月份（选中年份时显示） -->
+            <template v-if="store.selectedYears.length">
               <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">月份</div>
               <div class="tag-filter-list" style="margin-bottom:8px">
                 <span class="tag-filter-item" :class="{ active: !store.selectedMonth }"
