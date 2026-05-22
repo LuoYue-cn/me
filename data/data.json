@@ -23,7 +23,7 @@
     ]
   },
   "settings": {
-    "bgType": "preset",
+    "bgType": "custom",
     "bgPreset": "midnight",
     "bgCustom": "",
     "bgCustomUrls": [
