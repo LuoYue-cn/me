@@ -130,7 +130,7 @@ export const useAppStore = defineStore('app', {
       let list = state.data?.websites || []
       if (state.selectedTags.length) {
         list = list.filter(s => {
-          return state.selectedTags.some(tag => {
+          return state.selectedTags.every(tag => {
             if (tag === '🔗 链接') return s.type === 'link'
             if (tag === '📝 说说') return s.type === 'post'
             if (tag === '📄 博客') return s.type === 'blog'
