@@ -199,11 +199,11 @@ function toast(msg) {
             <template v-if="store.selectedYears.length">
               <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">月份</div>
               <div class="tag-filter-list" style="margin-bottom:8px">
-                <span class="tag-filter-item" :class="{ active: !store.selectedMonth }"
-                  @click="store.setMonth('')">全部</span>
+                <span class="tag-filter-item" :class="{ active: !store.selectedMonths.length }"
+                  @click="store.selectedMonths = []">全部</span>
                 <span v-for="m in 12" :key="m" class="tag-filter-item"
-                  :class="{ active: store.selectedMonth === String(m).padStart(2,'0') }"
-                  @click="store.setMonth(String(m).padStart(2,'0'))">{{ m }}</span>
+                  :class="{ active: store.selectedMonths.includes(String(m).padStart(2,'0')) }"
+                  @click="store.toggleMonth(String(m).padStart(2,'0'))">{{ m }}</span>
               </div>
             </template>
 
