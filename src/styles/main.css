@@ -601,7 +601,8 @@ a:hover {
 }
 .timeline-item:hover,
 .timeline-item:active,
-.timeline-item:focus-within {
+.timeline-item:focus-within,
+.timeline-item-touch {
   border-left-color: var(--accent);
 }
 .timeline-item::before {
@@ -618,7 +619,8 @@ a:hover {
 }
 .timeline-item:hover::before,
 .timeline-item:active::before,
-.timeline-item:focus-within::before {
+.timeline-item:focus-within::before,
+.timeline-item-touch::before {
   border-color: var(--accent);
   background: var(--accent);
 }

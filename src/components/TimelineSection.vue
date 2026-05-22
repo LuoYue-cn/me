@@ -8,6 +8,12 @@ defineProps({
 
 const store = useAppStore()
 const page = ref(1)
+const touchHighlight = ref(null)
+
+function onItemTouch(id) {
+  touchHighlight.value = id
+  setTimeout(() => { if (touchHighlight.value === id) touchHighlight.value = null }, 600)
+}
 
 const placeholderIcon = computed(() => store.data?.settings?.placeholderIcon || '')
 
@@ -115,6 +121,8 @@ function confirmDelete(site) {
           :key="site.id"
           v-memo="[site.id, store.isLoggedIn]"
           class="timeline-item"
+          :class="{ 'timeline-item-touch': touchHighlight === site.id }"
+          @touchstart="onItemTouch(site.id)"
         >
           <div class="timeline-date">{{ site.date?.slice(0, 10) }}</div>
           <div class="timeline-item-body">
