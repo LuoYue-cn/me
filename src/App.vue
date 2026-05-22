@@ -21,7 +21,7 @@ const toastMsg = ref('')
 const clockStr = ref('')
 
 // ===== 年龄计算 =====
-const BIRTH = new Date('2011-04-02')
+const BIRTH = new Date(2011, 3, 2)
 const now = ref(new Date())
 let clockTimer
 
