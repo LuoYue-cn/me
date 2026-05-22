@@ -58,6 +58,11 @@ async function save() {
   if (form.type === 'post') {
     updates.content = form.content
     updates.icon = form.icon
+  } else if (form.type === 'blog') {
+    updates.name = form.name
+    updates.description = form.description
+    updates.content = form.content
+    updates.icon = form.icon
   } else {
     updates.name = form.name
     updates.url = form.url.startsWith('http') ? form.url : 'https://' + form.url
@@ -82,6 +87,7 @@ async function save() {
         <div style="display:flex;gap:8px">
           <button class="btn btn-sm" :class="{ 'btn-primary': form.type === 'link' }" @click="form.type = 'link'">链接</button>
           <button class="btn btn-sm" :class="{ 'btn-primary': form.type === 'post' }" @click="form.type = 'post'">说说</button>
+          <button class="btn btn-sm" :class="{ 'btn-primary': form.type === 'blog' }" @click="form.type = 'blog'">博客</button>
         </div>
       </div>
 
@@ -106,6 +112,27 @@ async function save() {
         </div>
       </template>
 
+      <!-- 博客 -->
+      <template v-else-if="form.type === 'blog'">
+        <div class="form-group">
+          <label class="form-label">标题 *</label>
+          <input v-model="form.name" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">简介</label>
+          <input v-model="form.description" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">内容</label>
+          <textarea v-model="form.content" class="form-textarea" rows="8"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">图标 URL</label>
+          <input v-model="form.icon" class="form-input" />
+        </div>
+      </template>
+
+      <!-- 说说 -->
       <template v-else>
         <div class="form-group">
           <label class="form-label">内容</label>

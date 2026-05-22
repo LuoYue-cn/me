@@ -118,7 +118,7 @@ function confirmDelete(site) {
         >
           <div class="timeline-date">{{ site.date?.slice(0, 10) }}</div>
           <div class="timeline-item-body">
-            <!-- 说说：纯文本 -->
+            <!-- 说说 -->
             <template v-if="site.type === 'post'">
               <div class="timeline-icon">
                 <img :src="site.icon || placeholderIcon || undefined" alt="图标" loading="lazy"
@@ -128,6 +128,24 @@ function confirmDelete(site) {
                 <div class="timeline-post">{{ site.content }}</div>
                 <div class="timeline-tags">
                   <span class="timeline-tag timeline-tag-type">{{ site.type === 'post' ? '📝 说说' : '🔗 链接' }}</span>
+                  <span v-for="(tag, i) in site.tags" :key="i" v-if="site.tags?.length" class="timeline-tag">{{ tag }}</span>
+                </div>
+              </div>
+            </template>
+
+            <!-- 博客：标题+简介，点击看全文 -->
+            <template v-else-if="site.type === 'blog'">
+              <div class="timeline-icon">
+                <img :src="site.icon || placeholderIcon || undefined" alt="图标" loading="lazy"
+                  @error="$event.target.closest('.timeline-icon').classList.add('hidden')" />
+              </div>
+              <div class="timeline-info">
+                <div class="timeline-name" style="cursor:pointer" @click="store.showBlog = site.id">
+                  <a style="color:var(--accent);text-decoration:none">{{ site.name }}</a>
+                </div>
+                <div v-if="site.description" class="timeline-desc">{{ site.description }}</div>
+                <div class="timeline-tags">
+                  <span class="timeline-tag timeline-tag-type">{{ '📄 博客' }}</span>
                   <span v-for="(tag, i) in site.tags" :key="i" v-if="site.tags?.length" class="timeline-tag">{{ tag }}</span>
                 </div>
               </div>

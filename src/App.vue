@@ -11,6 +11,7 @@ import EditSiteDialog from './components/EditSiteDialog.vue'
 import EditSectionDialog from './components/EditSectionDialog.vue'
 import ConfirmDialog from './components/ConfirmDialog.vue'
 import SiteSettingsDialog from './components/SiteSettingsDialog.vue'
+import BlogView from './components/BlogView.vue'
 
 const store = useAppStore()
 
@@ -246,6 +247,7 @@ function toast(msg) {
   <EditSectionDialog v-if="store.showEditSection" :section="store.showEditSection" />
   <ConfirmDialog v-if="store.showConfirm" :confirm="store.showConfirm" />
   <SiteSettingsDialog v-if="store.showSettings" />
+  <BlogView v-if="store.showBlog" />
 
   <!-- Toast -->
   <div v-if="toastMsg" class="toast">{{ toastMsg }}</div>

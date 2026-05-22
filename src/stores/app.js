@@ -93,6 +93,7 @@ export const useAppStore = defineStore('app', {
     showEditSection: null, // 正在编辑的区块
     showConfirm: null,     // { title, message, onConfirm }
     showSettings: false,
+    showBlog: null,
   }),
 
   getters: {
@@ -106,6 +107,7 @@ export const useAppStore = defineStore('app', {
       const set = new Set()
       for (const site of (state.data?.websites || [])) {
         if (site.type === 'post') set.add('📝 说说')
+        else if (site.type === 'blog') set.add('📄 博客')
         else set.add('🔗 链接')
         for (const tag of (site.tags || [])) {
           if (tag) set.add(tag)
@@ -131,6 +133,8 @@ export const useAppStore = defineStore('app', {
           list = list.filter(s => s.type === 'link')
         } else if (state.selectedTag === '📝 说说') {
           list = list.filter(s => s.type === 'post')
+        } else if (state.selectedTag === '📄 博客') {
+          list = list.filter(s => s.type === 'blog')
         } else {
           list = list.filter(s => s.tags && s.tags.includes(state.selectedTag))
         }
@@ -283,6 +287,11 @@ export const useAppStore = defineStore('app', {
         tags: site.tags || [],
       }
       if (entry.type === 'post') {
+        entry.content = site.content || ''
+        entry.icon = site.icon || ''
+      } else if (entry.type === 'blog') {
+        entry.name = site.name || ''
+        entry.description = site.description || ''
         entry.content = site.content || ''
         entry.icon = site.icon || ''
       } else {

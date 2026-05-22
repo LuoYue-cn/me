@@ -42,6 +42,9 @@ async function save() {
   }
   if (entryType.value === 'post') {
     store.addWebsite({ ...base, content: form.content, icon: form.icon })
+  } else if (entryType.value === 'blog') {
+    if (!form.name.trim()) { error.value = '标题不能为空'; return }
+    store.addWebsite({ ...base, name: form.name, description: form.description, content: form.content, icon: form.icon })
   } else {
     store.addWebsite({
       ...base, name: form.name,
@@ -66,6 +69,7 @@ async function save() {
         <div style="display:flex;gap:8px">
           <button class="btn btn-sm" :class="{ 'btn-primary': entryType === 'link' }" @click="entryType = 'link'">链接</button>
           <button class="btn btn-sm" :class="{ 'btn-primary': entryType === 'post' }" @click="entryType = 'post'">说说</button>
+          <button class="btn btn-sm" :class="{ 'btn-primary': entryType === 'blog' }" @click="entryType = 'blog'">博客</button>
         </div>
       </div>
 
@@ -91,8 +95,28 @@ async function save() {
         </div>
       </template>
 
+      <!-- 博客字段 -->
+      <template v-else-if="entryType === 'blog'">
+        <div class="form-group">
+          <label class="form-label">标题 *</label>
+          <input v-model="form.name" class="form-input" placeholder="文章标题" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">简介</label>
+          <input v-model="form.description" class="form-input" placeholder="一句话简介" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">内容（支持 Markdown）</label>
+          <textarea v-model="form.content" class="form-textarea" rows="8" placeholder="粘贴 Markdown 内容..."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">图标 URL</label>
+          <input v-model="form.icon" class="form-input" placeholder="可选" />
+        </div>
+      </template>
+
       <!-- 说说字段 -->
-      <template v-else>
+      <template v-else-if="entryType === 'post'">
         <div class="form-group">
           <label class="form-label">内容</label>
           <textarea v-model="form.content" class="form-textarea" rows="4" placeholder="写点什么…"></textarea>
