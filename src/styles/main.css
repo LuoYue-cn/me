@@ -563,6 +563,8 @@ a:hover {
   margin-left: 4px;
   border-left: 2px solid transparent;
   transition: all 0.2s;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .timeline-item-body {
