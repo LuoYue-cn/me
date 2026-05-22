@@ -40,7 +40,7 @@ const pageSites = computed(() => {
 watch(() => [pag.value.enabled, pag.value.perPage], () => { page.value = 1 })
 
 // 筛选变化时重置到第一页
-watch(() => [store.selectedTag, store.selectedYear, store.selectedMonth], () => { page.value = 1 })
+watch(() => [store.selectedTags, store.selectedYear, store.selectedMonth], () => { page.value = 1 }, { deep: true })
 
 // 按年份分组
 const grouped = computed(() => {

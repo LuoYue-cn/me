@@ -81,7 +81,7 @@ export const useAppStore = defineStore('app', {
     error: null,
 
     // 筛选
-    selectedTag: '',
+    selectedTags: [],
     selectedYear: '',
     selectedMonth: '',
 
@@ -125,19 +125,18 @@ export const useAppStore = defineStore('app', {
       return [...set].sort((a, b) => b.localeCompare(a))
     },
 
-    // 按所有筛选条件过滤网站
+    // 按所有筛选条件过滤网站（多标签 OR 逻辑）
     filteredWebsites: (state) => {
       let list = state.data?.websites || []
-      if (state.selectedTag) {
-        if (state.selectedTag === '🔗 链接') {
-          list = list.filter(s => s.type === 'link')
-        } else if (state.selectedTag === '📝 说说') {
-          list = list.filter(s => s.type === 'post')
-        } else if (state.selectedTag === '📄 博客') {
-          list = list.filter(s => s.type === 'blog')
-        } else {
-          list = list.filter(s => s.tags && s.tags.includes(state.selectedTag))
-        }
+      if (state.selectedTags.length) {
+        list = list.filter(s => {
+          return state.selectedTags.some(tag => {
+            if (tag === '🔗 链接') return s.type === 'link'
+            if (tag === '📝 说说') return s.type === 'post'
+            if (tag === '📄 博客') return s.type === 'blog'
+            return s.tags && s.tags.includes(tag)
+          })
+        })
       }
       if (state.selectedYear) {
         list = list.filter(s => s.date && s.date.startsWith(state.selectedYear))
@@ -150,8 +149,10 @@ export const useAppStore = defineStore('app', {
   },
 
   actions: {
-    setTag(tag) {
-      this.selectedTag = tag
+    toggleTag(tag) {
+      const idx = this.selectedTags.indexOf(tag)
+      if (idx >= 0) this.selectedTags.splice(idx, 1)
+      else this.selectedTags.push(tag)
     },
     setYear(year) {
       this.selectedYear = year
