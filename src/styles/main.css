@@ -511,9 +511,11 @@ a:hover {
   transition: all 0.2s;
   user-select: none;
 }
-.tag-filter-item:hover {
-  background: var(--accent);
-  color: white;
+@media (hover: hover) {
+  .tag-filter-item:hover {
+    background: var(--accent);
+    color: white;
+  }
 }
 .tag-filter-item.active {
   background: var(--accent);
