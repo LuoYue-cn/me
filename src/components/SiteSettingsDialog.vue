@@ -41,6 +41,7 @@ const form = reactive({
   theme: s.theme || 'smooth',
   pagination: { ...(s.pagination || { enabled: false, perPage: 10 }) },
   siteIcon: s.siteIcon || '',
+  placeholderIcon: s.placeholderIcon || '',
 })
 
 const newUrl = reactive({ value: '' })
@@ -118,7 +119,9 @@ function applySettings(f) {
 <template>
   <div class="overlay" @click.self="close">
     <div class="dialog" style="max-width:560px">
-      <div class="dialog-title">🎨 网站设置</div>
+      <div class="dialog-title">🎨 设置</div>
+
+      <div class="settings-section">背景</div>
 
       <!-- 背景类型 -->
       <div class="form-group">
@@ -183,6 +186,8 @@ function applySettings(f) {
         <input type="range" v-model.number="form.bgBlur" min="0" max="40" class="form-range" />
       </div>
 
+      <div class="settings-section">卡片</div>
+
       <!-- 卡片毛玻璃模糊 -->
       <div class="form-group">
         <label class="form-label">卡片磨砂感：{{ form.cardBlur }}px</label>
@@ -195,6 +200,8 @@ function applySettings(f) {
         <label class="form-label">卡片透明度：{{ Math.round(form.cardOpacity * 100) }}%</label>
         <input type="range" v-model.number="form.cardOpacity" min="0.3" max="1" step="0.01" class="form-range" />
       </div>
+
+      <div class="settings-section">功能</div>
 
       <!-- 翻页设置 -->
       <div class="form-group">
@@ -211,6 +218,14 @@ function applySettings(f) {
           <label class="form-label">每页条数：{{ form.pagination.perPage }}</label>
           <input type="range" v-model.number="form.pagination.perPage" min="3" max="30" class="form-range" />
         </div>
+      </div>
+
+      <div class="settings-section">图标</div>
+
+      <!-- 网站图标 -->
+      <div class="form-group">
+        <label class="form-label">默认占位图标 URL</label>
+        <input v-model="form.placeholderIcon" class="form-input" placeholder="可选，链接/说说无图标时显示此图" />
       </div>
 
       <!-- 网站图标 -->

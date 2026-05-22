@@ -784,6 +784,18 @@ a:hover {
   color: var(--text-secondary);
 }
 
+/* ============ 设置板块分隔 ============ */
+.settings-section {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 16px 0 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border);
+}
+
 /* ============ 预设选择网格 ============ */
 .preset-grid {
   display: flex;

@@ -9,6 +9,8 @@ defineProps({
 const store = useAppStore()
 const page = ref(1)
 
+const placeholderIcon = computed(() => store.data?.settings?.placeholderIcon || '')
+
 const pag = computed(() => store.data?.settings?.pagination || { enabled: false, perPage: 10 })
 
 // 过滤后的网站，按日期降序平铺
@@ -118,15 +120,14 @@ function confirmDelete(site) {
           <div class="timeline-item-body">
             <!-- 说说：纯文本 -->
             <template v-if="site.type === 'post'">
-              <div v-if="site.icon" class="timeline-icon">
-                <img :src="site.icon" alt="图标" loading="lazy"
+              <div class="timeline-icon">
+                <img :src="site.icon || placeholderIcon || undefined" alt="图标" loading="lazy"
                   @error="$event.target.closest('.timeline-icon').classList.add('hidden')" />
               </div>
-              <div v-else class="timeline-icon-placeholder"></div>
               <div class="timeline-info">
                 <div class="timeline-post">{{ site.content }}</div>
                 <div class="timeline-tags">
-                  <span class="timeline-tag timeline-tag-type">{{ site.type === 'post' ? '📝' : '🔗' }}</span>
+                  <span class="timeline-tag timeline-tag-type">{{ site.type === 'post' ? '📝 说说' : '🔗 链接' }}</span>
                   <span v-for="(tag, i) in site.tags" :key="i" v-if="site.tags?.length" class="timeline-tag">{{ tag }}</span>
                 </div>
               </div>
@@ -134,11 +135,10 @@ function confirmDelete(site) {
 
             <!-- 链接：网站图标+名称+url+描述 -->
             <template v-else>
-              <div v-if="site.icon" class="timeline-icon">
-                <img :src="site.icon" :alt="site.name + ' 图标'" loading="lazy"
+              <div class="timeline-icon">
+                <img :src="site.icon || placeholderIcon || undefined" :alt="site.name + ' 图标'" loading="lazy"
                   @error="$event.target.closest('.timeline-icon').classList.add('hidden')" />
               </div>
-              <div v-else class="timeline-icon-placeholder"></div>
               <div class="timeline-info">
                 <div class="timeline-name">
                   <a :href="site.url" target="_blank" rel="noopener">{{ site.name }}</a>
@@ -146,7 +146,7 @@ function confirmDelete(site) {
                 <div class="timeline-url">{{ cleanUrl(site.url) }}</div>
                 <div v-if="site.description" class="timeline-desc">{{ site.description }}</div>
                 <div class="timeline-tags">
-                  <span class="timeline-tag timeline-tag-type">{{ site.type === 'post' ? '📝' : '🔗' }}</span>
+                  <span class="timeline-tag timeline-tag-type">{{ site.type === 'post' ? '📝 说说' : '🔗 链接' }}</span>
                   <span v-for="(tag, i) in site.tags" :key="i" v-if="site.tags?.length" class="timeline-tag">{{ tag }}</span>
                 </div>
               </div>

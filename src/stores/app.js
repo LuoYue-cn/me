@@ -28,6 +28,7 @@ function defaultData() {
       theme: 'smooth',
       pagination: { enabled: false, perPage: 10 },
       siteIcon: '',
+      placeholderIcon: '',
     },
     sections: [
       { id: 'about', type: 'text', title: '关于我', content: '写点什么介绍一下自己吧。', order: 0 },
