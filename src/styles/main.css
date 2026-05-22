@@ -678,11 +678,14 @@ a:hover {
   position: absolute;
   right: 0;
   top: 12px;
-  display: none;
-  gap: 4px;
-}
-.timeline-item:hover .timeline-actions {
   display: flex;
+  gap: 4px;
+  opacity: 0.3;
+  transition: opacity 0.15s;
+}
+.timeline-item:hover .timeline-actions,
+.timeline-item:focus-within .timeline-actions {
+  opacity: 1;
 }
 
 /* ============ 文本区块 ============ */
