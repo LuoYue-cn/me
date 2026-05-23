@@ -39,6 +39,7 @@
   --shadow-lg: 0 0 40px rgba(0,255,204,0.1);
   --font: inherit;
 }
+[data-theme="cyberpunk"] .timeline-tag-type { color: #fff; }
 [data-theme="cyberpunk"] .section-card {
   border: 1px solid #00ffcc;
   box-shadow: 0 0 12px rgba(0,255,204,0.15), inset 0 0 12px rgba(0,255,204,0.03);
@@ -105,6 +106,7 @@
   --font: 'Courier New', 'Consolas', monospace;
 }
 [data-theme="terminal"] body { font-family: 'Courier New', 'Consolas', monospace; }
+[data-theme="terminal"] .timeline-tag-type { color: #0a0a0a; }
 [data-theme="terminal"] .btn { background: #1a1a1a; color: #33ff33; border: 1px solid #33ff33; }
 [data-theme="terminal"] .btn-primary { background: #33ff33; color: #0a0a0a; border: none; }
 [data-theme="terminal"] .btn-ghost { background: transparent; color: #33dd33; border: none; }
@@ -150,7 +152,9 @@
 }
 [data-theme="retro"] body { font-family: 'Georgia', 'Noto Serif SC', serif; }
 
+
 /* 暗夜 */
+[data-theme="dark"] .timeline-tag-type { color: #fff; }
 [data-theme="dark"] {
   --bg: #1a1a1a;
   --card-r: 42; --card-g: 42; --card-b: 42; --card-bg-alpha: 1;
@@ -170,6 +174,7 @@
 }
 
 /* 霓虹 */
+[data-theme="neon"] .timeline-tag-type { color: #fff; }
 [data-theme="neon"] {
   --bg: #0a0a14;
   --card-r: 10; --card-g: 10; --card-b: 30; --card-bg-alpha: 0.7;
@@ -693,9 +698,8 @@ a:hover {
 }
 .timeline-tag-type {
   background: var(--accent);
-  color: var(--card-bg);
+  color: #1a1a1a;
   font-weight: 600;
-  mix-blend-mode: difference;
 }
 .timeline-attachments {
   display: flex;
