@@ -29,6 +29,10 @@ async function handleUpload(e) {
   finally { uploading.value = false; e.target.value = '' }
 }
 function removeAttach(i) { attachments.value.splice(i, 1) }
+const editIdx = ref(-1)
+const editData = reactive({ name: '', url: '' })
+function startEdit(i) { editIdx.value = i; editData.name = attachments.value[i].name; editData.url = attachments.value[i].url }
+function saveEdit() { if (editIdx.value >= 0) Object.assign(attachments.value[editIdx.value], { name: editData.name, url: editData.url }); editIdx.value = -1 }
 function addExtLink() {
   const url = extUrl.value.trim(); const name = extName.value.trim() || url
   if (!url) return
@@ -164,9 +168,18 @@ async function save() {
             <button class="btn btn-sm btn-primary" @click="addExtLink">添加</button>
           </div>
           <div v-if="uploading" style="font-size:13px;color:var(--text-muted);margin-top:4px">上传中…</div>
-          <div v-for="(a,i) in attachments" :key="i" style="font-size:13px;margin-top:4px;display:flex;align-items:center;gap:6px">
-            <a :href="a.url" target="_blank" style="color:var(--accent)">📎 {{ a.name }}</a>
-            <span style="color:var(--danger);cursor:pointer" @click="removeAttach(i)">✕</span>
+          <div v-for="(a,i) in attachments" :key="i" style="font-size:13px;margin-top:4px">
+            <template v-if="editIdx === i">
+              <input v-model="editData.name" class="form-input" placeholder="名称" style="width:80px;display:inline;margin-right:4px" />
+              <input v-model="editData.url" class="form-input" placeholder="URL" style="width:200px;display:inline;margin-right:4px" />
+              <button class="btn btn-sm btn-primary" @click="saveEdit">✔</button>
+              <button class="btn btn-sm" @click="editIdx = -1">✕</button>
+            </template>
+            <template v-else>
+              <a :href="a.url" target="_blank" style="color:var(--accent)">📎 {{ a.name }}</a>
+              <span style="color:var(--text-muted);cursor:pointer;margin-left:4px" @click="startEdit(i)">✏</span>
+              <span style="color:var(--danger);cursor:pointer;margin-left:4px" @click="removeAttach(i)">🗑</span>
+            </template>
           </div>
         </div>
       </template>
@@ -190,8 +203,15 @@ async function save() {
             <button class="btn btn-sm btn-primary" @click="addExtLink">添加</button>
           </div>
           <div v-if="uploading" style="font-size:13px;color:var(--text-muted);margin-top:4px">上传中…</div>
-          <div v-for="(a,i) in attachments" :key="i" style="font-size:13px;margin-top:4px;display:flex;align-items:center;gap:6px">
-            <a :href="a.url" target="_blank" style="color:var(--accent)">📎 {{ a.name }}</a>
+          <div v-for="(a,i) in attachments" :key="i" style="font-size:13px;margin-top:4px">
+            <template v-if="editIdx === i">
+              <input v-model="editData.name" class="form-input" placeholder="名称" style="width:80px;display:inline;margin-right:4px" />
+              <input v-model="editData.url" class="form-input" placeholder="URL" style="width:200px;display:inline;margin-right:4px" />
+              <button class="btn btn-sm btn-primary" @click="saveEdit">✔</button>
+              <button class="btn btn-sm" @click="editIdx = -1">✕</button>
+            </template>
+            <template v-else>
+              <a :href="a.url" target="_blank" style="color:var(--accent)">📎 {{ a.name }}</a>
             <span style="color:var(--danger);cursor:pointer" @click="removeAttach(i)">✕</span>
           </div>
         </div>
