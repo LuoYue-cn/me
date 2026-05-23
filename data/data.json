@@ -46,7 +46,7 @@
     "bgBlur": 23,
     "cardOpacity": 0.75,
     "cardBlur": 30,
-    "theme": "terminal",
+    "theme": "retro",
     "pagination": {
       "enabled": false,
       "perPage": 5
