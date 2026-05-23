@@ -22,6 +22,15 @@ async function handleUpload(e) {
 
 function removeAttach(i) { attachments.value.splice(i, 1) }
 
+function importMd(e) {
+  const file = e.target.files?.[0]
+  if (!file) return
+  const r = new FileReader()
+  r.onload = () => { form.content = r.result; form.name = form.name || file.name.replace(/\.md$/i, '') }
+  r.readAsText(file)
+  e.target.value = ''
+}
+
 const editIdx = ref(-1)
 const editData = reactive({ name: '', url: '' })
 function startEdit(i) {
@@ -146,6 +155,7 @@ async function save() {
         <div class="form-group">
           <label class="form-label">内容（支持 Markdown）</label>
           <textarea v-model="form.content" class="form-textarea" rows="8" placeholder="粘贴 Markdown 内容..."></textarea>
+          <input type="file" accept=".md" @change="importMd" style="margin-top:6px;font-size:13px" />
         </div>
         <div class="form-group">
           <label class="form-label">图标 URL</label>
