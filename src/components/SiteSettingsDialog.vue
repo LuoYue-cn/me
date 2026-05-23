@@ -42,6 +42,8 @@ const form = reactive({
   pagination: { ...(s.pagination || { enabled: false, perPage: 10 }) },
   siteIcon: s.siteIcon || '',
   placeholderIcon: s.placeholderIcon || '',
+  iconBgOpacity: s.iconBgOpacity ?? 0.2,
+  iconBgBlur: s.iconBgBlur ?? 0,
 })
 
 const newUrl = reactive({ value: '' })
