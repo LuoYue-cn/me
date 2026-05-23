@@ -110,6 +110,7 @@
 [data-theme="terminal"] .btn-ghost { background: transparent; color: #33dd33; border: none; }
 [data-theme="terminal"] .tag-filter-item.active { background: #33ff33; color: #0a0a0a; }
 
+
 /* 极简 */
 [data-theme="minimal"] {
   --bg: #fafafa;
@@ -692,8 +693,9 @@ a:hover {
 }
 .timeline-tag-type {
   background: var(--accent);
-  color: #fff;
+  color: var(--card-bg);
   font-weight: 600;
+  mix-blend-mode: difference;
 }
 .timeline-attachments {
   display: flex;
