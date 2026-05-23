@@ -151,8 +151,8 @@ function confirmDelete(site) {
                   @error="$event.target.closest('.timeline-icon').classList.add('hidden')" />
               </div>
               <div class="timeline-info">
-                <div class="timeline-name" style="cursor:pointer" @click="store.showBlog = site.id">
-                  <a style="color:var(--accent);text-decoration:none">{{ site.name }}</a>
+                <div class="timeline-name timeline-name-clickable" @click="store.showBlog = site.id">
+                  <a>{{ site.name }}</a>
                 </div>
                 <div v-if="site.description" class="timeline-desc">{{ site.description }}</div>
                 <div class="timeline-tags">

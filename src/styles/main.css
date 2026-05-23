@@ -639,6 +639,9 @@ a:hover {
   font-size: 16px;
   font-weight: 600;
 }
+.timeline-name-clickable { cursor: pointer; }
+.timeline-name-clickable a { color: var(--accent) !important; text-decoration: none; }
+.timeline-name-clickable a:hover { text-decoration: underline; }
 .timeline-name a {
   color: var(--text);
 }
