@@ -9,8 +9,10 @@ const GITHUB_API = 'https://api.github.com'
 /**
  * 从 GitHub 读取数据文件
  */
-export async function fetchData() {
-  const url = `${GITHUB_API}/repos/${config.owner}/${config.repo}/contents/${config.dataPath}`
+export async function fetchData(useWorker) {
+  const url = useWorker
+    ? `${config.oauthWorkerUrl}/api/read`
+    : `${GITHUB_API}/repos/${config.owner}/${config.repo}/contents/${config.dataPath}`
   const res = await fetch(url, {
     headers: getHeaders(),
   })

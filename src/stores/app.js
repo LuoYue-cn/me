@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import { fetchData, saveData, verifyToken, saveToken, clearToken, hasToken, workerAuth, workerSave } from '../api/github.js'
-import { encodeBase64 } from '../api/github.js'
+import { fetchData, saveData, verifyToken, saveToken, clearToken, hasToken, workerAuth, workerSave, encodeBase64 } from '../api/github.js'
+
 
 /**
  * 默认数据模板
@@ -253,7 +253,7 @@ export const useAppStore = defineStore('app', {
       this.loading = true
       this.error = null
       try {
-        const result = await fetchData()
+        const result = await fetchData(!!this.workerToken)
         if (result) {
           this.data = result.content
           this.sha = result.sha
@@ -283,7 +283,7 @@ export const useAppStore = defineStore('app', {
         try {
           if (!this.sha) {
             try {
-              const result = await fetchData()
+              const result = await fetchData(!!this.workerToken)
               this.sha = result ? result.sha : localStorage.getItem('last_sha') || null
             } catch {
               this.sha = localStorage.getItem('last_sha') || null

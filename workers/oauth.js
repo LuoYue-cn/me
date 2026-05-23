@@ -46,6 +46,22 @@ export default {
       })
     }
 
+    // === 代理读取（通过 Worker 的 Token，避免限速） ===
+    if (path === '/api/read') {
+      const res = await fetch(
+        `https://api.github.com/repos/LuoYue-cn/me/contents/data/data.json`,
+        {
+          headers: {
+            'User-Agent': 'me.h666h.com-worker',
+            Accept: 'application/vnd.github.v3+json',
+            ...(env.GITHUB_TOKEN ? { Authorization: `Bearer ${env.GITHUB_TOKEN}` } : {}),
+          },
+        }
+      )
+      const data = await res.json()
+      return json(data)
+    }
+
     // === 密码认证 ===
     if (path === '/api/auth' && method === 'POST') {
       const { password } = await request.json()
