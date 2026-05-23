@@ -18,6 +18,10 @@ const store = useAppStore()
 const textSection = computed(() => store.sections.find(s => s.type === 'text'))
 const timelineSection = computed(() => store.sections.find(s => s.type === 'timeline'))
 
+const typeTags = ['🔗 链接', '📝 说说', '📄 博客']
+const typeTagList = computed(() => store.allTags.filter(t => typeTags.includes(t)))
+const otherTagList = computed(() => store.allTags.filter(t => !typeTags.includes(t)))
+
 const toastMsg = ref('')
 const clockStr = ref('')
 
@@ -212,12 +216,20 @@ function toast(msg) {
               </div>
             </template>
 
+            <!-- 类型 -->
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">类型</div>
+            <div class="tag-filter-list" style="margin-bottom:8px">
+              <span v-for="tag in typeTagList" :key="tag" class="tag-filter-item"
+                :class="{ active: store.selectedTags.includes(tag) }"
+                @click="store.toggleTag(tag)">{{ tag }}</span>
+            </div>
+
             <!-- 标签 -->
             <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">标签</div>
             <div class="tag-filter-list">
               <span class="tag-filter-item" :class="{ active: !store.selectedTags.length }"
                 @click="store.selectedTags = []">全部</span>
-              <span v-for="tag in store.allTags" :key="tag" class="tag-filter-item"
+              <span v-for="tag in otherTagList" :key="tag" class="tag-filter-item"
                 :class="{ active: store.selectedTags.includes(tag) }"
                 @click="store.toggleTag(tag)">{{ tag }}</span>
             </div>
