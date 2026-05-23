@@ -46,13 +46,15 @@
     "bgBlur": 23,
     "cardOpacity": 0.75,
     "cardBlur": 30,
-    "theme": "aero",
+    "theme": "terminal",
     "pagination": {
       "enabled": false,
       "perPage": 5
     },
     "siteIcon": "https://pic.h666h.com/pic/Mortis.jpg",
-    "placeholderIcon": "https://pic.h666h.com/pic/Null-icon.png"
+    "placeholderIcon": "https://pic.h666h.com/pic/Null-icon.png",
+    "iconBgOpacity": 0.6,
+    "iconBgBlur": 20
   },
   "sections": [
     {
