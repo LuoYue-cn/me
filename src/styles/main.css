@@ -643,7 +643,7 @@ a:hover {
 .timeline-name-clickable a { color: var(--accent) !important; text-decoration: none; }
 .timeline-name-clickable a:hover { text-decoration: underline; }
 .timeline-name a {
-  color: var(--text);
+  color: var(--accent);
 }
 .timeline-name a:hover {
   color: var(--accent);
