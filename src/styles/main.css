@@ -640,10 +640,11 @@ a:hover {
   font-weight: 600;
 }
 .timeline-name-clickable { cursor: pointer; }
-.timeline-name-clickable a { color: var(--accent) !important; text-decoration: none; }
+.timeline-name-clickable a { color: var(--accent) !important; text-decoration: none; font-weight: 700; }
 .timeline-name-clickable a:hover { text-decoration: underline; }
 .timeline-name a {
   color: var(--accent);
+  font-weight: 700;
 }
 .timeline-name a:hover {
   color: var(--accent);
