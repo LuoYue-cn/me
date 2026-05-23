@@ -19,6 +19,12 @@
         "url": "https://github.com/LuoYue-cn",
         "icon": "github",
         "show": true
+      },
+      {
+        "platform": "bilibili",
+        "url": "https://b23.tv/GhaNNnI",
+        "icon": "",
+        "show": true
       }
     ]
   },
