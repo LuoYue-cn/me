@@ -707,6 +707,15 @@ a:hover {
   background: var(--accent);
   color: #fff;
 }
+.attach-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card-bg);
+}
 
 .timeline-actions {
   position: absolute;

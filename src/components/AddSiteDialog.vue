@@ -168,9 +168,11 @@ async function save() {
               <button class="btn btn-sm" @click="editIdx = -1">✕</button>
             </template>
             <template v-else>
-              <a :href="a.url" target="_blank" style="color:var(--accent)">📎 {{ a.name }}</a>
-              <span style="color:var(--text-muted);cursor:pointer;margin-left:4px" @click="startEdit(i)">✏</span>
-              <span style="color:var(--danger);cursor:pointer;margin-left:4px" @click="removeAttach(i)">🗑</span>
+              <span class="attach-item">
+                <a :href="a.url" target="_blank" style="color:var(--accent)">📎 {{ a.name }}</a>
+                <button class="btn btn-sm btn-ghost" @click="startEdit(i)" style="padding:0 4px;font-size:12px">✏</button>
+                <button class="btn btn-sm btn-ghost" @click="removeAttach(i)" style="padding:0 4px;font-size:12px;color:var(--danger)">✕</button>
+              </span>
             </template>
           </div>
         </div>
@@ -203,9 +205,11 @@ async function save() {
               <button class="btn btn-sm" @click="editIdx = -1">✕</button>
             </template>
             <template v-else>
-              <a :href="a.url" target="_blank" style="color:var(--accent)">📎 {{ a.name }}</a>
-              <span style="color:var(--text-muted);cursor:pointer;margin-left:4px" @click="startEdit(i)">✏</span>
-              <span style="color:var(--danger);cursor:pointer;margin-left:4px" @click="removeAttach(i)">🗑</span>
+              <span class="attach-item">
+                <a :href="a.url" target="_blank" style="color:var(--accent)">📎 {{ a.name }}</a>
+                <button class="btn btn-sm btn-ghost" @click="startEdit(i)" style="padding:0 4px;font-size:12px">✏</button>
+                <button class="btn btn-sm btn-ghost" @click="removeAttach(i)" style="padding:0 4px;font-size:12px;color:var(--danger)">✕</button>
+              </span>
             </template>
           </div>
         </div>
