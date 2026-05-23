@@ -136,7 +136,10 @@ function confirmDelete(site) {
                 <div class="timeline-post">{{ site.content }}</div>
                 <div class="timeline-tags">
                   <span class="timeline-tag timeline-tag-type">{{ site.type === 'post' ? '📝 说说' : '🔗 链接' }}</span>
-                  <span v-for="(tag, i) in site.tags" :key="i" v-if="site.tags?.length" class="timeline-tag">{{ tag }}</span>
+                  <span v-if="site.tags?.length">
+                    <span v-for="(tag, i) in site.tags" :key="i" class="timeline-tag">{{ tag }}</span>
+                  </span>
+                  <span v-else class="timeline-tag">无特定</span>
                 </div>
               </div>
             </template>
@@ -173,7 +176,10 @@ function confirmDelete(site) {
                 <div v-if="site.description" class="timeline-desc">{{ site.description }}</div>
                 <div class="timeline-tags">
                   <span class="timeline-tag timeline-tag-type">{{ site.type === 'post' ? '📝 说说' : '🔗 链接' }}</span>
-                  <span v-for="(tag, i) in site.tags" :key="i" v-if="site.tags?.length" class="timeline-tag">{{ tag }}</span>
+                  <span v-if="site.tags?.length">
+                    <span v-for="(tag, i) in site.tags" :key="i" class="timeline-tag">{{ tag }}</span>
+                  </span>
+                  <span v-else class="timeline-tag">无特定</span>
                 </div>
               </div>
             </template>

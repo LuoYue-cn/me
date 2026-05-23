@@ -106,14 +106,18 @@ export const useAppStore = defineStore('app', {
     // 所有不重复的标签，按拼音排序（含虚拟类型标签）
     allTags: (state) => {
       const set = new Set()
+      let hasUntagged = false
       for (const site of (state.data?.websites || [])) {
         if (site.type === 'post') set.add('📝 说说')
         else if (site.type === 'blog') set.add('📄 博客')
         else set.add('🔗 链接')
-        for (const tag of (site.tags || [])) {
-          if (tag) set.add(tag)
+        if (site.tags && site.tags.length) {
+          site.tags.forEach(t => { if (t) set.add(t) })
+        } else {
+          hasUntagged = true
         }
       }
+      if (hasUntagged) set.add('无特定')
       return [...set].sort((a, b) => a.localeCompare(b, 'zh-Hans-CN'))
     },
 
@@ -138,7 +142,10 @@ export const useAppStore = defineStore('app', {
             if (t === '📝 说说') return s.type === 'post'
             if (t === '📄 博客') return s.type === 'blog'
           })) return false
-          if (otherTags.length && !otherTags.every(t => s.tags && s.tags.includes(t))) return false
+          if (otherTags.length && !otherTags.every(t => {
+            if (t === '无特定') return !s.tags || !s.tags.length
+            return s.tags && s.tags.includes(t)
+          })) return false
           return true
         })
       }
