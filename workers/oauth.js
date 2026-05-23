@@ -58,8 +58,11 @@ export default {
           },
         }
       )
-      const data = await res.json()
-      return json(data)
+      const ghText = await res.text()
+      return new Response(ghText, {
+        status: res.status,
+        headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' },
+      })
     }
 
     // === 密码认证 ===
