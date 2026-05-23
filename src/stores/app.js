@@ -129,13 +129,16 @@ export const useAppStore = defineStore('app', {
     filteredWebsites: (state) => {
       let list = state.data?.websites || []
       if (state.selectedTags.length) {
+        const typeTags = state.selectedTags.filter(t => ['🔗 链接', '📝 说说', '📄 博客'].includes(t))
+        const otherTags = state.selectedTags.filter(t => !['🔗 链接', '📝 说说', '📄 博客'].includes(t))
         list = list.filter(s => {
-          return state.selectedTags.every(tag => {
-            if (tag === '🔗 链接') return s.type === 'link'
-            if (tag === '📝 说说') return s.type === 'post'
-            if (tag === '📄 博客') return s.type === 'blog'
-            return s.tags && s.tags.includes(tag)
-          })
+          if (typeTags.length && !typeTags.some(t => {
+            if (t === '🔗 链接') return s.type === 'link'
+            if (t === '📝 说说') return s.type === 'post'
+            if (t === '📄 博客') return s.type === 'blog'
+          })) return false
+          if (otherTags.length && !otherTags.every(t => s.tags && s.tags.includes(t))) return false
+          return true
         })
       }
       if (state.selectedYears.length) {

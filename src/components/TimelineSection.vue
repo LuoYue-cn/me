@@ -106,8 +106,8 @@ function confirmDelete(site) {
 
     <!-- 空状态：有网站但筛选后没有匹配 -->
     <div v-else-if="!store.filteredWebsites.length" class="empty-state">
-      <p>没有匹配「{{ store.selectedTag }}」的网站</p>
-      <button class="btn btn-sm btn-ghost" @click="store.setTag('')">
+      <p>没有匹配的条目</p>
+      <button class="btn btn-sm btn-ghost" @click="store.selectedTags = []; store.selectedYears = []; store.selectedMonths = []">
         显示全部
       </button>
     </div>
