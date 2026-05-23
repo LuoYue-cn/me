@@ -230,6 +230,22 @@ function applySettings(f) {
         <input v-model="form.placeholderIcon" class="form-input" placeholder="可选，链接/说说无图标时显示此图" />
       </div>
 
+      <!-- 图标底框 -->
+      <div class="form-group">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <label class="form-label" style="margin:0">图标底框透明度</label>
+          <span style="font-size:13px;color:var(--text-secondary)">{{ Math.round(form.iconBgOpacity * 100) }}%</span>
+        </div>
+        <input type="range" v-model.number="form.iconBgOpacity" min="0" max="0.6" step="0.01" class="form-range" />
+      </div>
+      <div class="form-group">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <label class="form-label" style="margin:0">图标底框模糊</label>
+          <span style="font-size:13px;color:var(--text-secondary)">{{ form.iconBgBlur }}px</span>
+        </div>
+        <input type="range" v-model.number="form.iconBgBlur" min="0" max="20" class="form-range" />
+      </div>
+
       <!-- 网站图标 -->
       <div class="form-group">
         <label class="form-label">网站图标 URL</label>
