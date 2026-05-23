@@ -1,6 +1,7 @@
 <script setup>
 import { ref, reactive, watch } from 'vue'
 import { useAppStore } from '../stores/app.js'
+import { uploadFile } from '../api/github.js'
 
 const store = useAppStore()
 
@@ -12,6 +13,29 @@ function splitDate(v) {
   return { date: d, time: t ? t.slice(0, 5) : '' }
 }
 const init = splitDate(props.site.date)
+const attachments = ref((props.site.attachments || []).map(a => ({ ...a })))
+const uploading = ref(false)
+const extName = ref('')
+const extUrl = ref('')
+
+async function handleUpload(e) {
+  const file = e.target.files?.[0]
+  if (!file || file.size > 5 * 1024 * 1024) { alert('文件不能超过 5MB'); return }
+  uploading.value = true
+  try {
+    const result = await uploadFile(file, store.workerToken)
+    attachments.value.push(result)
+  } catch (e) { alert('上传失败: ' + e.message) }
+  finally { uploading.value = false; e.target.value = '' }
+}
+function removeAttach(i) { attachments.value.splice(i, 1) }
+function addExtLink() {
+  const url = extUrl.value.trim(); const name = extName.value.trim() || url
+  if (!url) return
+  attachments.value.push({ name, url })
+  extName.value = ''; extUrl.value = ''
+}
+
 const form = reactive({
   type: props.site.type || 'link',
   name: props.site.name || '',
@@ -55,6 +79,7 @@ async function save() {
     date: form.date + 'T' + (form.time || '00:00'),
     tags: form.tags.split(/[,，、\s]+/).filter(Boolean).slice(0, 5),
   }
+  if (attachments.value.length) updates.attachments = attachments.value.map(a => ({ ...a }))
   if (form.type === 'post') {
     updates.content = form.content
     updates.icon = form.icon
@@ -130,6 +155,20 @@ async function save() {
           <label class="form-label">图标 URL</label>
           <input v-model="form.icon" class="form-input" />
         </div>
+        <div class="form-group">
+          <label class="form-label">附件 / 外链</label>
+          <input type="file" @change="handleUpload" :disabled="uploading" style="display:block;margin-bottom:6px" />
+          <div style="display:flex;gap:6px">
+            <input v-model="extName" class="form-input" placeholder="名称" style="flex:0 0 80px" />
+            <input v-model="extUrl" class="form-input" placeholder="外部链接 URL" @keyup.enter="addExtLink" />
+            <button class="btn btn-sm btn-primary" @click="addExtLink">添加</button>
+          </div>
+          <div v-if="uploading" style="font-size:13px;color:var(--text-muted);margin-top:4px">上传中…</div>
+          <div v-for="(a,i) in attachments" :key="i" style="font-size:13px;margin-top:4px;display:flex;align-items:center;gap:6px">
+            <a :href="a.url" target="_blank" style="color:var(--accent)">📎 {{ a.name }}</a>
+            <span style="color:var(--danger);cursor:pointer" @click="removeAttach(i)">✕</span>
+          </div>
+        </div>
       </template>
 
       <!-- 说说 -->
@@ -141,6 +180,20 @@ async function save() {
         <div class="form-group">
           <label class="form-label">图标 URL</label>
           <input v-model="form.icon" class="form-input" placeholder="可选" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">附件 / 外链</label>
+          <input type="file" @change="handleUpload" :disabled="uploading" style="display:block;margin-bottom:6px" />
+          <div style="display:flex;gap:6px">
+            <input v-model="extName" class="form-input" placeholder="名称" style="flex:0 0 80px" />
+            <input v-model="extUrl" class="form-input" placeholder="外部链接 URL" @keyup.enter="addExtLink" />
+            <button class="btn btn-sm btn-primary" @click="addExtLink">添加</button>
+          </div>
+          <div v-if="uploading" style="font-size:13px;color:var(--text-muted);margin-top:4px">上传中…</div>
+          <div v-for="(a,i) in attachments" :key="i" style="font-size:13px;margin-top:4px;display:flex;align-items:center;gap:6px">
+            <a :href="a.url" target="_blank" style="color:var(--accent)">📎 {{ a.name }}</a>
+            <span style="color:var(--danger);cursor:pointer" @click="removeAttach(i)">✕</span>
+          </div>
         </div>
       </template>
 

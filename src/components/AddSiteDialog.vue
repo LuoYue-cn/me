@@ -21,6 +21,17 @@ async function handleUpload(e) {
 }
 
 function removeAttach(i) { attachments.value.splice(i, 1) }
+
+const extName = ref('')
+const extUrl = ref('')
+function addExtLink() {
+  const url = extUrl.value.trim()
+  const name = extName.value.trim() || url
+  if (!url) return
+  attachments.value.push({ name, url })
+  extName.value = ''
+  extUrl.value = ''
+}
 function nowLocal() {
   const d = new Date()
   const y = d.getFullYear()
@@ -131,11 +142,17 @@ async function save() {
           <input v-model="form.icon" class="form-input" placeholder="可选" />
         </div>
         <div class="form-group">
-          <label class="form-label">附件</label>
-          <input type="file" @change="handleUpload" :disabled="uploading" />
-          <div v-if="uploading" style="font-size:13px;color:var(--text-muted)">上传中…</div>
-          <div v-for="(a,i) in attachments" :key="i" style="font-size:13px;margin-top:4px">
-            📎 {{ a.name }} <span style="color:var(--danger);cursor:pointer" @click="removeAttach(i)">✕</span>
+          <label class="form-label">附件 / 外链</label>
+          <input type="file" @change="handleUpload" :disabled="uploading" style="display:block;margin-bottom:6px" />
+          <div style="display:flex;gap:6px">
+            <input v-model="extName" class="form-input" placeholder="名称" style="flex:0 0 80px" />
+            <input v-model="extUrl" class="form-input" placeholder="外部链接 URL" @keyup.enter="addExtLink" />
+            <button class="btn btn-sm btn-primary" @click="addExtLink">添加</button>
+          </div>
+          <div v-if="uploading" style="font-size:13px;color:var(--text-muted);margin-top:4px">上传中…</div>
+          <div v-for="(a,i) in attachments" :key="i" style="font-size:13px;margin-top:4px;display:flex;align-items:center;gap:6px">
+            <a :href="a.url" target="_blank" style="color:var(--accent)">📎 {{ a.name }}</a>
+            <span style="color:var(--danger);cursor:pointer" @click="removeAttach(i)">✕</span>
           </div>
         </div>
       </template>
@@ -151,11 +168,17 @@ async function save() {
           <input v-model="form.icon" class="form-input" placeholder="可选，如 📷 或图片链接" />
         </div>
         <div class="form-group">
-          <label class="form-label">附件</label>
-          <input type="file" @change="handleUpload" :disabled="uploading" />
-          <div v-if="uploading" style="font-size:13px;color:var(--text-muted)">上传中…</div>
-          <div v-for="(a,i) in attachments" :key="i" style="font-size:13px;margin-top:4px">
-            📎 {{ a.name }} <span style="color:var(--danger);cursor:pointer" @click="removeAttach(i)">✕</span>
+          <label class="form-label">附件 / 外链</label>
+          <input type="file" @change="handleUpload" :disabled="uploading" style="display:block;margin-bottom:6px" />
+          <div style="display:flex;gap:6px">
+            <input v-model="extName" class="form-input" placeholder="名称" style="flex:0 0 80px" />
+            <input v-model="extUrl" class="form-input" placeholder="外部链接 URL" @keyup.enter="addExtLink" />
+            <button class="btn btn-sm btn-primary" @click="addExtLink">添加</button>
+          </div>
+          <div v-if="uploading" style="font-size:13px;color:var(--text-muted);margin-top:4px">上传中…</div>
+          <div v-for="(a,i) in attachments" :key="i" style="font-size:13px;margin-top:4px;display:flex;align-items:center;gap:6px">
+            <a :href="a.url" target="_blank" style="color:var(--accent)">📎 {{ a.name }}</a>
+            <span style="color:var(--danger);cursor:pointer" @click="removeAttach(i)">✕</span>
           </div>
         </div>
       </template>
