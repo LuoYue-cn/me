@@ -229,8 +229,8 @@ function toast(msg) {
             <!-- 标签 -->
             <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">标签</div>
             <div class="tag-filter-list">
-              <span class="tag-filter-item" :class="{ active: !store.selectedTags.length }"
-                @click="store.selectedTags = []">全部</span>
+              <span class="tag-filter-item" :class="{ active: !store.selectedTags.filter(t => !typeTags.includes(t)).length }"
+                @click="store.selectedTags = store.selectedTags.filter(t => typeTags.includes(t))">全部</span>
               <span v-for="tag in otherTagList" :key="tag" class="tag-filter-item"
                 :class="{ active: store.selectedTags.includes(tag) }"
                 @click="store.toggleTag(tag)">{{ tag }}</span>
