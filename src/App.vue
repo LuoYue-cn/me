@@ -181,6 +181,11 @@ function toast(msg) {
             <div v-if="ageInfo.daysToNext <= 365" class="age-detail">距 {{ ageInfo.years + 1 }} 岁生日还有 {{ ageInfo.daysToNext }} 天</div>
           </div>
 
+          <!-- 🔍 搜索 -->
+          <div class="section-card" style="padding:12px 16px">
+            <input v-model="store.searchQuery" class="form-input" placeholder="🔍 搜索条目…" style="font-size:14px" />
+          </div>
+
           <!-- ④ 筛选：年 / 月 / 标签 -->
           <div class="section-card tag-filter">
             <div style="font-size:14px;font-weight:600;margin-bottom:10px">筛选</div>

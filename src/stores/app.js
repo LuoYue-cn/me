@@ -81,6 +81,7 @@ export const useAppStore = defineStore('app', {
     error: null,
 
     // 筛选
+    searchQuery: '',
     selectedTags: [],
     selectedYears: [],
     selectedMonths: [],
@@ -146,6 +147,16 @@ export const useAppStore = defineStore('app', {
       }
       if (state.selectedMonths.length) {
         list = list.filter(s => s.date && state.selectedMonths.some(m => s.date.slice(5, 7) === m))
+      }
+      if (state.searchQuery) {
+        const q = state.searchQuery.toLowerCase()
+        list = list.filter(s =>
+          (s.name && s.name.toLowerCase().includes(q)) ||
+          (s.description && s.description.toLowerCase().includes(q)) ||
+          (s.content && s.content.toLowerCase().includes(q)) ||
+          (s.url && s.url.toLowerCase().includes(q)) ||
+          (s.tags && s.tags.some(t => t.toLowerCase().includes(q)))
+        )
       }
       return list
     },
