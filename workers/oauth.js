@@ -89,7 +89,44 @@ export default {
       }
     }
 
-    // === OAuth 回调（不变） ===
+    // === 文件上传 ===
+    if (path === '/api/upload' && method === 'POST') {
+      try {
+        const body = await request.json()
+        const payload = await verifyToken(body.token, env.TOKEN_SECRET)
+        if (!payload) return json({ error: '登录已过期' }, 401)
+        if (!env.GITHUB_TOKEN) return json({ error: 'Worker 未配置 GITHUB_TOKEN' }, 500)
+
+        const filename = Date.now() + '-' + body.filename.replace(/[^a-zA-Z0-9._-]/g, '_')
+        const ghRes = await fetch(
+          `https://api.github.com/repos/LuoYue-cn/me/contents/attachments/${filename}`,
+          {
+            method: 'PUT',
+            headers: {
+              'User-Agent': 'me.h666h.com-worker',
+              Accept: 'application/vnd.github.v3+json',
+              Authorization: `Bearer ${env.GITHUB_TOKEN}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              message: `上传附件: ${body.filename}`,
+              content: body.content,
+              branch: 'main',
+            }),
+          }
+        )
+        const ghData = await ghRes.json()
+        if (!ghRes.ok) return json({ error: ghData.message }, 500)
+        return json({
+          url: `https://raw.githubusercontent.com/LuoYue-cn/me/main/attachments/${filename}`,
+          name: body.filename,
+        })
+      } catch (e) {
+        return json({ error: '上传失败: ' + e.message }, 500)
+      }
+    }
+
+    // === OAuth 回调 ===
     if (path === '/callback') {
       const code = url.searchParams.get('code')
       if (!code) return new Response('Missing code', { status: 400 })

@@ -321,11 +321,13 @@ export const useAppStore = defineStore('app', {
       if (entry.type === 'post') {
         entry.content = site.content || ''
         entry.icon = site.icon || ''
+        if (site.attachments) entry.attachments = site.attachments
       } else if (entry.type === 'blog') {
         entry.name = site.name || ''
         entry.description = site.description || ''
         entry.content = site.content || ''
         entry.icon = site.icon || ''
+        if (site.attachments) entry.attachments = site.attachments
       } else {
         entry.name = site.name || ''
         entry.url = site.url || ''

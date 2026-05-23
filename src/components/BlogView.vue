@@ -45,6 +45,9 @@ function close() { store.showBlog = null }
       <div class="dialog-title" style="margin-bottom:4px">{{ blog().name || '文章' }}</div>
       <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px">{{ blog().date?.slice(0,10) }}</div>
       <div class="blog-content" v-html="rendered"></div>
+      <div v-if="blog().attachments?.length" class="timeline-attachments" style="margin-top:12px">
+        <a v-for="(a,i) in blog().attachments" :key="i" :href="a.url" target="_blank" class="timeline-attach">📎 {{ a.name }}</a>
+      </div>
       <div class="form-actions" style="margin-top:16px">
         <button class="btn" @click="close">关闭</button>
         <button class="btn btn-primary" @click="openInTab">📄 新标签页查看</button>

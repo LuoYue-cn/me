@@ -1,10 +1,26 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import { useAppStore } from '../stores/app.js'
+import { uploadFile } from '../api/github.js'
 
 const store = useAppStore()
 
 const entryType = ref('link')
+const uploading = ref(false)
+const attachments = ref([])
+
+async function handleUpload(e) {
+  const file = e.target.files?.[0]
+  if (!file || file.size > 5 * 1024 * 1024) { alert('文件不能超过 5MB'); return }
+  uploading.value = true
+  try {
+    const result = await uploadFile(file, store.workerToken)
+    attachments.value.push(result)
+  } catch (e) { alert('上传失败: ' + e.message) }
+  finally { uploading.value = false; e.target.value = '' }
+}
+
+function removeAttach(i) { attachments.value.splice(i, 1) }
 function nowLocal() {
   const d = new Date()
   const y = d.getFullYear()
@@ -40,11 +56,12 @@ async function save() {
     date: form.date + 'T' + (form.time || '00:00'),
     tags: form.tags.split(/[,，、\s]+/).filter(Boolean).slice(0, 5),
   }
+  const extra = attachments.value.length ? { attachments: [...attachments.value] } : {}
   if (entryType.value === 'post') {
-    store.addWebsite({ ...base, content: form.content, icon: form.icon })
+    store.addWebsite({ ...base, content: form.content, icon: form.icon, ...extra })
   } else if (entryType.value === 'blog') {
     if (!form.name.trim()) { error.value = '标题不能为空'; return }
-    store.addWebsite({ ...base, name: form.name, description: form.description, content: form.content, icon: form.icon })
+    store.addWebsite({ ...base, name: form.name, description: form.description, content: form.content, icon: form.icon, ...extra })
   } else {
     store.addWebsite({
       ...base, name: form.name,
@@ -113,6 +130,14 @@ async function save() {
           <label class="form-label">图标 URL</label>
           <input v-model="form.icon" class="form-input" placeholder="可选" />
         </div>
+        <div class="form-group">
+          <label class="form-label">附件</label>
+          <input type="file" @change="handleUpload" :disabled="uploading" />
+          <div v-if="uploading" style="font-size:13px;color:var(--text-muted)">上传中…</div>
+          <div v-for="(a,i) in attachments" :key="i" style="font-size:13px;margin-top:4px">
+            📎 {{ a.name }} <span style="color:var(--danger);cursor:pointer" @click="removeAttach(i)">✕</span>
+          </div>
+        </div>
       </template>
 
       <!-- 说说字段 -->
@@ -124,6 +149,14 @@ async function save() {
         <div class="form-group">
           <label class="form-label">图标 URL</label>
           <input v-model="form.icon" class="form-input" placeholder="可选，如 📷 或图片链接" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">附件</label>
+          <input type="file" @change="handleUpload" :disabled="uploading" />
+          <div v-if="uploading" style="font-size:13px;color:var(--text-muted)">上传中…</div>
+          <div v-for="(a,i) in attachments" :key="i" style="font-size:13px;margin-top:4px">
+            📎 {{ a.name }} <span style="color:var(--danger);cursor:pointer" @click="removeAttach(i)">✕</span>
+          </div>
         </div>
       </template>
 

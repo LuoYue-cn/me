@@ -688,6 +688,25 @@ a:hover {
   color: #fff;
   font-weight: 600;
 }
+.timeline-attachments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+.timeline-attach {
+  font-size: 13px;
+  color: var(--accent);
+  text-decoration: none;
+  padding: 2px 8px;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  transition: 0.15s;
+}
+.timeline-attach:hover {
+  background: var(--accent);
+  color: #fff;
+}
 
 .timeline-actions {
   position: absolute;

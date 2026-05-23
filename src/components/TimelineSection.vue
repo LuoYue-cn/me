@@ -141,6 +141,9 @@ function confirmDelete(site) {
                   </span>
                   <span v-else class="timeline-tag">无特定</span>
                 </div>
+                <div v-if="site.attachments?.length" class="timeline-attachments">
+                  <a v-for="(a,i) in site.attachments" :key="i" :href="a.url" target="_blank" class="timeline-attach">📎 {{ a.name }}</a>
+                </div>
               </div>
             </template>
 
@@ -157,7 +160,13 @@ function confirmDelete(site) {
                 <div v-if="site.description" class="timeline-desc">{{ site.description }}</div>
                 <div class="timeline-tags">
                   <span class="timeline-tag timeline-tag-type">{{ '📄 博客' }}</span>
-                  <span v-for="(tag, i) in site.tags" :key="i" v-if="site.tags?.length" class="timeline-tag">{{ tag }}</span>
+                  <span v-if="site.tags?.length">
+                    <span v-for="(tag, i) in site.tags" :key="i" class="timeline-tag">{{ tag }}</span>
+                  </span>
+                  <span v-else class="timeline-tag">无特定</span>
+                </div>
+                <div v-if="site.attachments?.length" class="timeline-attachments">
+                  <a v-for="(a,i) in site.attachments" :key="i" :href="a.url" target="_blank" class="timeline-attach">📎 {{ a.name }}</a>
                 </div>
               </div>
             </template>
@@ -180,6 +189,9 @@ function confirmDelete(site) {
                     <span v-for="(tag, i) in site.tags" :key="i" class="timeline-tag">{{ tag }}</span>
                   </span>
                   <span v-else class="timeline-tag">无特定</span>
+                </div>
+                <div v-if="site.attachments?.length" class="timeline-attachments">
+                  <a v-for="(a,i) in site.attachments" :key="i" :href="a.url" target="_blank" class="timeline-attach">📎 {{ a.name }}</a>
                 </div>
               </div>
             </template>

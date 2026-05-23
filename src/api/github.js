@@ -139,6 +139,30 @@ export async function workerSave(content, sha, token) {
 }
 
 /**
+ * 通过 Worker 上传文件
+ */
+export async function uploadFile(file, token) {
+  const base64 = await fileToBase64(file)
+  const res = await fetch(WORKER + '/api/upload', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token, filename: file.name, content: base64.split(',')[1] || base64 }),
+  })
+  const data = await res.json()
+  if (!res.ok) throw new Error(data.error || '上传失败')
+  return data // { url, name }
+}
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader()
+    r.onload = () => resolve(r.result)
+    r.onerror = reject
+    r.readAsDataURL(file)
+  })
+}
+
+/**
  * 保存 token 到 localStorage
  */
 export function saveToken(token) {
