@@ -252,19 +252,34 @@ export const useAppStore = defineStore('app', {
     async loadData() {
       this.loading = true
       this.error = null
+
+      // 尝试从缓存读取（5分钟内有效）
+      const cached = localStorage.getItem('cached_data')
+      if (cached) {
+        try {
+          const { data, sha, time } = JSON.parse(cached)
+          if (Date.now() - time < 300000) { // 5分钟
+            this.data = data
+            this.sha = sha
+            this.loading = false
+            return
+          }
+        } catch { /* 缓存损坏，忽略 */ }
+      }
+
       try {
         const result = await fetchData(!!this.workerToken)
         if (result) {
           this.data = result.content
           this.sha = result.sha
+          // 写入缓存
+          localStorage.setItem('cached_data', JSON.stringify({ data: result.content, sha: result.sha, time: Date.now() }))
         } else {
-          // 没有数据文件，用默认数据
           this.data = defaultData()
           this.sha = null
         }
       } catch (e) {
         this.error = '加载数据失败: ' + e.message
-        // 降级：用默认数据
         if (!this.data) {
           this.data = defaultData()
         }
@@ -299,6 +314,7 @@ export const useAppStore = defineStore('app', {
             this.sha = await saveData(this.data, this.sha)
           }
           localStorage.setItem('last_sha', this.sha)
+          localStorage.removeItem('cached_data')
         } catch (e) {
           throw new Error('保存失败: ' + e.message)
         } finally {
