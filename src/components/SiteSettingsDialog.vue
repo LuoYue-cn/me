@@ -92,6 +92,8 @@ async function save() {
 function applySettings(f) {
   document.documentElement.setAttribute('data-theme', f.theme || 'smooth')
   document.documentElement.style.setProperty('--card-bg-alpha', f.cardOpacity)
+  document.documentElement.style.setProperty('--icon-bg-opacity', f.iconBgOpacity ?? 0.2)
+  document.documentElement.style.setProperty('--icon-bg-blur', (f.iconBgBlur ?? 0) + 'px')
   document.documentElement.style.setProperty('--bg-blur', f.bgBlur + 'px')
   document.documentElement.style.setProperty('--card-blur', (f.cardBlur ?? 10) + 'px')
   const link = document.querySelector('link[rel="icon"]') || (() => {

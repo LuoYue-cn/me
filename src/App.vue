@@ -99,6 +99,8 @@ onMounted(async () => {
     document.documentElement.style.setProperty('--bg-blur', s.bgBlur + 'px')
     document.documentElement.style.setProperty('--card-blur', (s.cardBlur ?? 10) + 'px')
     document.documentElement.style.setProperty('--card-bg-alpha', s.cardOpacity)
+    document.documentElement.style.setProperty('--icon-bg-opacity', s.iconBgOpacity ?? 0.2)
+    document.documentElement.style.setProperty('--icon-bg-blur', (s.iconBgBlur ?? 0) + 'px')
     const setFavicon = (url) => {
       let link = document.querySelector('link[rel="icon"]')
       if (!link) { link = document.createElement('link'); link.rel = 'icon'; link.type = 'image/svg+xml'; document.head.appendChild(link) }
